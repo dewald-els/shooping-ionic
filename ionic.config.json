@@ -1,0 +1,7 @@
+{
+  "name": "everything-edible-ion",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
