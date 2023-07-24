@@ -22,6 +22,10 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import TabScreen from "./screens/tabs/Tabs";
+import PrivateRoute from "./components/private-route/PrivateRoute";
+import LoginScreen from "./screens/login/Login";
+import { AppRoutes } from "./consts/routes";
 
 setupIonicReact();
 
@@ -29,8 +33,17 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route path="/home" component={HomeScreen} />
-        <Route path="/create-account" component={CreateAccountScreen} />
+        <Route path={AppRoutes.Welcome} component={HomeScreen} />
+        <Route path={AppRoutes.CreateAccount} component={CreateAccountScreen} />
+        <Route path={AppRoutes.Login} component={LoginScreen} />
+        <Route
+          path="/tabs"
+          render={() => (
+            <PrivateRoute>
+              <TabScreen />
+            </PrivateRoute>
+          )}
+        />
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
