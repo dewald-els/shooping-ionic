@@ -19,15 +19,36 @@ import useProductOptions from "../../hooks/useProductOptions";
 import useAppStore from "../../store/store";
 import { ProductOption } from "../../models/product-option";
 import formatCurrency from "../../utils/formatCurrency";
+import { useState } from "react";
 
 type ProductOptionsModalProps = {
   onDismiss: () => void;
 };
 
+enum QuantityAction {
+  Add,
+  Remove,
+}
+
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
   const selectedProduct = useAppStore((state) => state.selectedProduct);
   const { productOptions = [], error } = useProductOptions(selectedProduct);
+  const [quantity, setQuantity] = useState(0);
+
+  const handleQuantityChange = (action: QuantityAction) => {
+    switch (action) {
+      case QuantityAction.Add:
+        setQuantity((qty) => qty + 1);
+        break;
+      case QuantityAction.Remove:
+        setQuantity((qty) => (qty > 0 ? qty - 1 : 0));
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -94,11 +115,20 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         <IonToolbar>
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <IonButton fill="outline">-</IonButton>
+              <IonButton
+                fill="outline"
+                onClick={() => handleQuantityChange(QuantityAction.Remove)}
+              >
+                -
+              </IonButton>
               <IonText>
-                <span>0</span>
+                <span>{quantity}</span>
               </IonText>
-              <IonButton>+</IonButton>
+              <IonButton
+                onClick={() => handleQuantityChange(QuantityAction.Add)}
+              >
+                +
+              </IonButton>
             </div>
             <div>
               <div>
