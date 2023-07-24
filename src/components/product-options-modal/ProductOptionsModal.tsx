@@ -11,6 +11,7 @@ import {
   IonRadio,
   IonRadioGroup,
   IonSkeletonText,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -90,7 +91,22 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         </IonRadioGroup>
       </IonContent>
       <IonFooter slot="bottom">
-        <IonToolbar>alsjdlasjkd</IonToolbar>
+        <IonToolbar>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <IonButton fill="outline">-</IonButton>
+              <IonText>
+                <span>0</span>
+              </IonText>
+              <IonButton>+</IonButton>
+            </div>
+            <div>
+              <div>
+                <IonButton>Add</IonButton>
+              </div>
+            </div>
+          </div>
+        </IonToolbar>
       </IonFooter>
     </IonPage>
   );

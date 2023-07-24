@@ -10,6 +10,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import OpeningHours from "../../components/opening-hours/OpeningHours";
 
 const UsTabScreen: React.FC = () => {
   return (
@@ -20,21 +21,7 @@ const UsTabScreen: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
-          <IonListHeader>Opening hours</IonListHeader>
-          <IonItem>
-            <IonText>Monday</IonText>
-            <IonText slot="end">
-              <span>12:00 - 18:00</span>
-            </IonText>
-          </IonItem>
-          <IonItem>
-            <IonText>Tuesday</IonText>
-            <IonText slot="end">
-              <span>12:00 - 18:00</span>
-            </IonText>
-          </IonItem>
-        </IonList>
+        <OpeningHours />
       </IonContent>
     </IonPage>
   );
