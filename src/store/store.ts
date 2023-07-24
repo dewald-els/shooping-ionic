@@ -6,11 +6,16 @@ import { ProductOption } from "../models/product-option";
 import { Profile } from "../models/profile";
 import { OrderSession } from "../models/order-session";
 import { OrderSessionItem } from "../models/order-session-item";
+import { omit } from "lodash";
 
 interface AppState {
   products: Product[];
   setProducts: (products: Product[]) => void;
   updateProduct: (product: Product) => void;
+
+  selectedProduct: Product | null;
+  setSelectedProduct: (product: Product | null) => void;
+  clearSelectedProduct: () => void;
 
   openingHours: OpeningHours[];
   setOpeningHours: (openingHours: OpeningHours[]) => void;
@@ -55,6 +60,18 @@ const useAppStore = create<AppState>()(
           set(() => ({
             products: updatedProducts,
           }));
+        },
+
+        // Selected product
+        selectedProduct: null,
+        setSelectedProduct: (product: Product | null) => {
+          set({ selectedProduct: product });
+        },
+        clearSelectedProduct: () => {
+          set(
+            (state) => omit(state, ["selectedProduct", "productOptions"]),
+            true
+          );
         },
 
         // Opening Hours

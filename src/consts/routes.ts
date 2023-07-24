@@ -7,8 +7,10 @@ enum AppRouteName {
   YouTabScreen = "YouTabScreen",
   UsTabScreen = "UsTabScreen",
   Login = "Login",
+  Start = "Start",
 }
 export const AppRoutes: Record<AppRouteName, string> = {
+  Start: "/",
   Welcome: "/home",
   CreateAccount: "/create-account",
   Login: "/login",

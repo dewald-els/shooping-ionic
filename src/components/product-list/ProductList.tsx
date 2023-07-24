@@ -3,23 +3,14 @@ import { flowerOutline, sparklesOutline, waterOutline } from "ionicons/icons";
 import { Product } from "../../models/product";
 import groupProductsByCategory from "../../utils/groupProductsByCategory";
 import ProductListItem from "./ProductListItem";
-import ProductOptionsModal from "../product-options/ProductOptions";
 
 type ProductListProps = {
   products: Product[];
+  onProductClick: (product: Product) => void;
 };
 
 const ProductList: React.FC<ProductListProps> = (props) => {
-  const { products } = props;
-  const [present, dismiss] = useIonModal(ProductOptionsModal, {
-    onDismiss: () => {
-      dismiss();
-    },
-  });
-
-  const handleProductClick = (product: Product) => {
-    present();
-  };
+  const { products, onProductClick } = props;
 
   const productCategories = groupProductsByCategory(products);
   const productCategoryList = Object.keys(productCategories).map(
@@ -48,7 +39,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
             <ProductListItem
               key={product.id}
               product={product}
-              onProductClick={handleProductClick}
+              onProductClick={onProductClick}
             />
           ))}
         </IonList>
@@ -56,11 +47,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
     }
   );
 
-  return (
-    <>
-      <div>{productCategoryList}</div>
-    </>
-  );
+  return <div>{productCategoryList}</div>;
 };
 
 export default ProductList;

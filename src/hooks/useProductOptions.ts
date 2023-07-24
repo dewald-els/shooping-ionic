@@ -10,7 +10,7 @@ type UseProductOption = {
   error: string | null;
 };
 
-const useProductOptions = (product: Product): UseProductOption => {
+const useProductOptions = (product: Product | null): UseProductOption => {
   const productOptions = useAppStore((state) => state.productOptions);
   const setProductOptions = useAppStore((state) => state.setProductOptions);
   const [error, setError] = useState<string | null>(null);
