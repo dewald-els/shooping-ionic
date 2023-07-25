@@ -1,11 +1,8 @@
 import {
   IonButton,
-  IonButtons,
   IonContent,
   IonHeader,
-  IonIcon,
   IonPage,
-  IonText,
   IonTitle,
   IonToolbar,
   useIonRouter,
@@ -13,9 +10,10 @@ import {
 import { supabase } from "../../services/supabase";
 import { AppRoutes } from "../../consts/routes";
 import { useState } from "react";
-import ProfileDetails from "../../components/profile/ProfileDetails";
 import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
+import OrderHistoryList from "../../components/order-history/OrderHistoryList";
+import ProfileSummary from "../../components/profile/ProfileSummary";
 
 const YouTabScreen: React.FC = () => {
   const router = useIonRouter();
@@ -41,8 +39,9 @@ const YouTabScreen: React.FC = () => {
           <IonTitle>You</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        <ProfileDetails profile={profile} user={session?.user} />
+      <IonContent>
+        <ProfileSummary profile={profile} user={session?.user} />
+        <OrderHistoryList />
 
         <IonButton
           color="danger"

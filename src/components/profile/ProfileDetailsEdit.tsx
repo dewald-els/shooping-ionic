@@ -3,6 +3,8 @@ import {
   IonButton,
   IonIcon,
   IonInput,
+  IonItem,
+  IonLabel,
   IonText,
 } from "@ionic/react";
 import { Profile } from "../../models/profile";
@@ -52,12 +54,14 @@ const ProfileDetails: React.FC<ProfileProps> = (props) => {
   };
 
   return (
-    <div className="ion-padding-bottom">
+    <div className="ion-padding">
       {profile && user && (
         <div>
-          <IonText>
-            <h2>Contact</h2>
-          </IonText>
+          <IonItem>
+            <IonLabel>
+              <h1>Address</h1>
+            </IonLabel>
+          </IonItem>
           <div className="ion-padding-bottom">
             <IonInput
               mode="md"
