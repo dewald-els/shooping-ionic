@@ -15,8 +15,13 @@ import { Redirect, Route } from "react-router";
 import ProductsTabScreen from "./ProductsTab";
 import YouTabScreen from "./YouTab";
 import UsTabScreen from "./UsTab";
+import useProductSubscription from "../../hooks/useProductSubscription";
+import useProductOptionSubscription from "../../hooks/useProductOptionSubscription";
 
 const TabScreen: React.FC = () => {
+  useProductSubscription();
+  useProductOptionSubscription();
+
   return (
     <IonTabs>
       <IonRouterOutlet>

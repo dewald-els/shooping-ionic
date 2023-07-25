@@ -14,6 +14,7 @@ import {
   IonText,
   IonTitle,
   IonToolbar,
+  RadioGroupChangeEventDetail,
 } from "@ionic/react";
 import useProductOptions from "../../hooks/useProductOptions";
 import useAppStore from "../../store/store";
@@ -33,6 +34,8 @@ enum QuantityAction {
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
   const selectedProduct = useAppStore((state) => state.selectedProduct);
+  const [selectedProductOption, setSelectedProductOption] =
+    useState<ProductOption | null>(null);
   const { productOptions = [], error } = useProductOptions(selectedProduct);
   const [quantity, setQuantity] = useState(0);
 
@@ -46,6 +49,15 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         break;
       default:
         return;
+    }
+  };
+
+  const handleOptionChange = (e: CustomEvent<RadioGroupChangeEventDetail>) => {
+    const id: number | null = e.detail?.value ?? null;
+    const productOption = productOptions.find((option) => option.id === id);
+    if (productOption) {
+      setSelectedProductOption(productOption);
+      setQuantity(0);
     }
   };
 
@@ -97,15 +109,27 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
           </IonList>
         )}
 
-        <IonRadioGroup>
+        <IonRadioGroup onIonChange={handleOptionChange}>
           {productOptions.map((option: ProductOption) => {
             const optionDisplayPrice = formatCurrency(option.price);
             return (
               <IonItem key={option.id}>
-                <IonRadio mode="md" labelPlacement="end" justify="start">
+                <IonRadio
+                  mode="md"
+                  labelPlacement="end"
+                  justify="start"
+                  value={option.id}
+                >
                   {option.name}
                 </IonRadio>
-                <span slot="end">{optionDisplayPrice}</span>
+                {option.stock > 0 && (
+                  <span slot="end">{optionDisplayPrice}</span>
+                )}
+                {option.stock <= 0 && (
+                  <IonText color="danger" slot="end">
+                    <span>Out of stock</span>
+                  </IonText>
+                )}
               </IonItem>
             );
           })}
