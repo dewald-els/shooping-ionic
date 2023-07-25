@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonButton,
   IonContent,
   IonHeader,
@@ -43,14 +44,30 @@ const YouTabScreen: React.FC = () => {
         <ProfileSummary profile={profile} user={session?.user} />
         <OrderHistoryList />
 
-        <IonButton
-          color="danger"
-          fill="clear"
-          expand="block"
-          onClick={handleLogoutClick}
-        >
-          Logout
-        </IonButton>
+        <div className="flex justify-center ion-padding">
+          <IonButton color="danger" fill="clear" id="prompt-logout">
+            Logout
+          </IonButton>
+        </div>
+
+        <IonAlert
+          header="Logout?"
+          message="Are you sure"
+          trigger="prompt-logout"
+          buttons={[
+            {
+              text: "No",
+              role: "cancel",
+            },
+            {
+              text: "Yes, Logout",
+              role: "confirm",
+              handler: () => {
+                handleLogoutClick();
+              },
+            },
+          ]}
+        />
       </IonContent>
     </IonPage>
   );

@@ -1,4 +1,5 @@
 import {
+  IonBadge,
   IonButton,
   IonButtons,
   IonContent,
@@ -42,7 +43,9 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const handleQuantityChange = (action: QuantityAction) => {
     switch (action) {
       case QuantityAction.Add:
-        setQuantity((qty) => qty + 1);
+        setQuantity((qty) =>
+          qty < (selectedProductOption?.stock || 0) ? qty + 1 : qty
+        );
         break;
       case QuantityAction.Remove:
         setQuantity((qty) => (qty > 0 ? qty - 1 : 0));
@@ -60,6 +63,10 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
       setQuantity(0);
     }
   };
+
+  const priceToAdd = formatCurrency(
+    selectedProductOption ? selectedProductOption.price * quantity : 0
+  );
 
   return (
     <IonPage>
@@ -119,6 +126,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
                   labelPlacement="end"
                   justify="start"
                   value={option.id}
+                  disabled={option.stock <= 0}
                 >
                   {option.name}
                 </IonRadio>
@@ -137,15 +145,15 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
       </IonContent>
       <IonFooter slot="bottom">
         <IonToolbar>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
+          <div className="flex justify-between items-center ion-padding-start ion-padding-end">
+            <div className="flex items-center gap-1">
               <IonButton
                 fill="outline"
                 onClick={() => handleQuantityChange(QuantityAction.Remove)}
               >
                 -
               </IonButton>
-              <IonText>
+              <IonText className="font-bold text-lg">
                 <span>{quantity}</span>
               </IonText>
               <IonButton
@@ -156,7 +164,12 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
             </div>
             <div>
               <div>
-                <IonButton>Add</IonButton>
+                <IonButton>
+                  <div className="flex gap-1 items-center">
+                    <span>Add</span>
+                    <span>{priceToAdd}</span>
+                  </div>
+                </IonButton>
               </div>
             </div>
           </div>

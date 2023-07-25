@@ -1,11 +1,4 @@
-import {
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
-  IonText,
-} from "@ionic/react";
+import { IonIcon, IonItem, IonLabel, IonList, IonText } from "@ionic/react";
 import useOpeningHours from "../../hooks/useOpeningHours";
 import { timeOutline } from "ionicons/icons";
 
