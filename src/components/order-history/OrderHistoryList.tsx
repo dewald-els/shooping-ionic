@@ -12,20 +12,23 @@ const OrderHistoryList: React.FC = () => {
         <IonItem button>
           <IonLabel>
             <h2>Order #1234</h2>
-            <p>R450</p>
+            <p>23 July 2023</p>
           </IonLabel>
+          <span slot="end">R450</span>
         </IonItem>
         <IonItem button>
           <IonLabel>
             <h2>Order #1235</h2>
             <p>R200</p>
           </IonLabel>
+          <span slot="end">R450</span>
         </IonItem>
         <IonItem button>
           <IonLabel>
             <h2>Order #1224</h2>
             <p>R120</p>
           </IonLabel>
+          <span slot="end">R450</span>
         </IonItem>
       </IonList>
       <div className="ion-padding-top ion-text-center">
