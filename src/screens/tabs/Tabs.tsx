@@ -17,6 +17,8 @@ import YouTabScreen from "./YouTab";
 import UsTabScreen from "./UsTab";
 import useProductSubscription from "../../hooks/useProductSubscription";
 import useProductOptionSubscription from "../../hooks/useProductOptionSubscription";
+import { AppRoutes } from "../../consts/routes";
+import TermsAndConditionsScreen from "../terms-and-conditions/TermsAndConditions";
 
 const TabScreen: React.FC = () => {
   useProductSubscription();
@@ -32,6 +34,10 @@ const TabScreen: React.FC = () => {
         <Route path="/tabs/products" component={ProductsTabScreen} />
         <Route path="/tabs/you" component={YouTabScreen} />
         <Route path="/tabs/us" component={UsTabScreen} />
+        <Route
+          path={AppRoutes.TermsAndConditionsTabScreen}
+          component={TermsAndConditionsScreen}
+        />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">

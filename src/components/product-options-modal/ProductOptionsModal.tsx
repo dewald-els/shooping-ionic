@@ -71,7 +71,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonTitle>Product options</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={onDismiss}>Cancel</IonButton>

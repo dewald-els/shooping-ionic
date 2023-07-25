@@ -1,6 +1,7 @@
 import {
   IonButton,
   IonContent,
+  IonFooter,
   IonHeader,
   IonIcon,
   IonItem,
@@ -18,7 +19,7 @@ import "./Home.css";
 import { AppRoutes } from "../../consts/routes";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { hourglassOutline } from "ionicons/icons";
+import { hourglassOutline, informationCircleOutline } from "ionicons/icons";
 
 const HomeScreen: React.FC = () => {
   const router = useIonRouter();
@@ -44,6 +45,10 @@ const HomeScreen: React.FC = () => {
 
   const handleLoginClick = () => {
     router.push(AppRoutes.Login);
+  };
+
+  const handleTermsClick = () => {
+    router.push(AppRoutes.TermsAndConditions);
   };
 
   return (
@@ -114,6 +119,16 @@ const HomeScreen: React.FC = () => {
           </div>
         )}
       </IonContent>
+      <IonFooter>
+        <IonToolbar>
+          <div className="flex justify-center">
+            <IonButton fill="clear" onClick={handleTermsClick}>
+              <IonIcon icon={informationCircleOutline} slot="start" />
+              Terms and conditions
+            </IonButton>
+          </div>
+        </IonToolbar>
+      </IonFooter>
     </IonPage>
   );
 };

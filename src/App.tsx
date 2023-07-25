@@ -26,6 +26,7 @@ import TabScreen from "./screens/tabs/Tabs";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import LoginScreen from "./screens/login/Login";
 import { AppRoutes } from "./consts/routes";
+import TermsAndConditionsScreen from "./screens/terms-and-conditions/TermsAndConditions";
 
 setupIonicReact();
 
@@ -36,6 +37,10 @@ const App: React.FC = () => (
         <Route path={AppRoutes.Welcome} component={HomeScreen} />
         <Route path={AppRoutes.CreateAccount} component={CreateAccountScreen} />
         <Route path={AppRoutes.Login} component={LoginScreen} />
+        <Route
+          path={AppRoutes.TermsAndConditions}
+          component={TermsAndConditionsScreen}
+        />
         <Route
           path="/tabs"
           render={() => (

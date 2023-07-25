@@ -2,6 +2,7 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
+  IonCheckbox,
   IonContent,
   IonHeader,
   IonIcon,
@@ -147,6 +148,12 @@ const CreateAccountScreen: React.FC = () => {
               placeholder="Post code"
               type="tel"
             />
+          </div>
+
+          <div className="ion-padding-bottom">
+            <IonCheckbox labelPlacement="end" justify="start">
+              I am at least 18 years old
+            </IonCheckbox>
           </div>
 
           <IonButton type="submit" expand="block">
