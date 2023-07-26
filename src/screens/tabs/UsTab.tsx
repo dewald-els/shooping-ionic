@@ -3,12 +3,8 @@ import {
   IonContent,
   IonHeader,
   IonItem,
-  IonLabel,
   IonList,
-  IonListHeader,
   IonPage,
-  IonRouterLink,
-  IonText,
   IonTitle,
   IonToolbar,
   useIonRouter,
@@ -31,7 +27,13 @@ const UsTabScreen: React.FC = () => {
       <IonContent>
         <OpeningHours />
 
-        <IonButton onClick={handleTermsClick}>Terms and conditions</IonButton>
+        <br />
+
+        <IonList>
+          <IonItem button onClick={handleTermsClick}>
+            Terms and conditions
+          </IonItem>
+        </IonList>
       </IonContent>
     </IonPage>
   );

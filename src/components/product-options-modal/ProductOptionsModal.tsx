@@ -1,17 +1,14 @@
+import { useState } from "react";
 import {
-  IonBadge,
   IonButton,
   IonButtons,
   IonContent,
   IonFooter,
   IonHeader,
   IonItem,
-  IonLabel,
-  IonList,
   IonPage,
   IonRadio,
   IonRadioGroup,
-  IonSkeletonText,
   IonText,
   IonTitle,
   IonToolbar,
@@ -21,7 +18,7 @@ import useProductOptions from "../../hooks/useProductOptions";
 import useAppStore from "../../store/store";
 import { ProductOption } from "../../models/product-option";
 import formatCurrency from "../../utils/formatCurrency";
-import { useState } from "react";
+import ProductOptionsLoader from "./ProductOptionsLoader";
 
 type ProductOptionsModalProps = {
   onDismiss: () => void;
@@ -35,6 +32,7 @@ enum QuantityAction {
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
   const selectedProduct = useAppStore((state) => state.selectedProduct);
+  const addToCart = useAppStore((state) => state.addToCart);
   const [selectedProductOption, setSelectedProductOption] =
     useState<ProductOption | null>(null);
   const { productOptions = [], error } = useProductOptions(selectedProduct);
@@ -64,6 +62,20 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
     }
   };
 
+  const handleAddClick = () => {
+    if (!selectedProduct || !selectedProductOption || quantity === 0) return;
+
+    addToCart([
+      {
+        id: selectedProductOption.id,
+        name: selectedProductOption.name,
+        unit_price: selectedProductOption.price || 0,
+        quantity,
+        image: selectedProduct?.image,
+      },
+    ]);
+  };
+
   const priceToAdd = formatCurrency(
     selectedProductOption ? selectedProductOption.price * quantity : 0
   );
@@ -74,47 +86,12 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         <IonToolbar color="primary">
           <IonTitle>Product options</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDismiss}>Cancel</IonButton>
+            <IonButton onClick={onDismiss}>Close</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {productOptions.length === 0 && (
-          <IonList>
-            <IonItem>
-              <IonLabel>
-                <h3>
-                  <IonSkeletonText
-                    animated={true}
-                    style={{ width: "80%" }}
-                  ></IonSkeletonText>
-                </h3>
-                <p>
-                  <IonSkeletonText
-                    animated={true}
-                    style={{ width: "60%" }}
-                  ></IonSkeletonText>
-                </p>
-              </IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonLabel>
-                <h3>
-                  <IonSkeletonText
-                    animated={true}
-                    style={{ width: "80%" }}
-                  ></IonSkeletonText>
-                </h3>
-                <p>
-                  <IonSkeletonText
-                    animated={true}
-                    style={{ width: "60%" }}
-                  ></IonSkeletonText>
-                </p>
-              </IonLabel>
-            </IonItem>
-          </IonList>
-        )}
+        {productOptions.length === 0 && <ProductOptionsLoader />}
 
         <IonRadioGroup onIonChange={handleOptionChange}>
           {productOptions.map((option: ProductOption) => {
@@ -164,7 +141,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
             </div>
             <div>
               <div>
-                <IonButton>
+                <IonButton onClick={handleAddClick}>
                   <div className="flex gap-1 items-center">
                     <span>Add</span>
                     <span>{priceToAdd}</span>

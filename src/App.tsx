@@ -27,6 +27,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import LoginScreen from "./screens/login/Login";
 import { AppRoutes } from "./consts/routes";
 import TermsAndConditionsScreen from "./screens/terms-and-conditions/TermsAndConditions";
+import CartFab from "./components/cart/CartFab";
 
 setupIonicReact();
 

@@ -17,6 +17,7 @@ import { useRef, useState } from "react";
 import ProductOptionsModal from "../../components/product-options-modal/ProductOptionsModal";
 import { Product } from "../../models/product";
 import useAppStore from "../../store/store";
+import CartFab from "../../components/cart/CartFab";
 
 const ProductsTabScreen: React.FC = () => {
   const pageRef = useRef();
@@ -76,6 +77,7 @@ const ProductsTabScreen: React.FC = () => {
           products={filteredProducts}
           onProductClick={handleProductClick}
         />
+        <CartFab />
       </IonContent>
     </IonPage>
   );

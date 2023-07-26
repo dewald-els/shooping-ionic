@@ -4,9 +4,9 @@ import { Product } from "../models/product";
 import { OpeningHours } from "../models/opening-hours";
 import { ProductOption } from "../models/product-option";
 import { Profile } from "../models/profile";
-import { OrderSession } from "../models/order-session";
-import { OrderSessionItem } from "../models/order-session-item";
 import { omit } from "lodash";
+import { Cart, CartProductOption } from "../models/cart";
+import { format } from "date-fns";
 
 interface AppState {
   products: Product[];
@@ -27,10 +27,8 @@ interface AppState {
   profile: Profile | null;
   setProfile: (profile: Profile) => void;
 
-  orderSession: OrderSession | null;
-  createOrderSession: (orderSession: OrderSession) => void;
-  addToOrderSession: (orderSessionItem: OrderSessionItem) => void;
-  clearOrderSession: () => void;
+  cart: Cart | null;
+  addToCart: (productOption: CartProductOption[]) => void;
 }
 
 const useAppStore = create<AppState>()(
@@ -98,16 +96,25 @@ const useAppStore = create<AppState>()(
           set(() => ({ productOptions: updatedProductOptions }));
         },
 
-        // Order session
-        orderSession: null,
-        createOrderSession: (orderSession: OrderSession) => {
-          set({ orderSession });
-        },
-        addToOrderSession: () => {
-          console.log("items");
-        },
-        clearOrderSession: () => {
-          set({ orderSession: null });
+        cart: null,
+        addToCart: (productOptions: CartProductOption[]) => {
+          const cart = get().cart;
+          let updatedCart: Cart | null = cart ? { ...cart } : null;
+
+          if (!updatedCart) {
+            updatedCart = {
+              created_at: format(Date.now(), "yyyy-MM-ddTHH:mm") ?? "",
+              updated_at: "",
+              product_options: [],
+            };
+          }
+
+          set({
+            cart: {
+              ...updatedCart,
+              product_options: [...productOptions],
+            },
+          });
         },
       }),
       {
