@@ -17,16 +17,13 @@ const CartFab: React.FC = () => {
   if (!cart) return null;
 
   const handleCartClick = () => {
-    router.push(AppRoutes.CartTabScreen);
+    router.push(AppRoutes.CartScreen);
   };
 
   return (
     <IonFab slot="fixed" vertical="bottom" horizontal="end">
       <div className="flex items-center">
-        <div>
-          <IonBadge color="dark">15:00</IonBadge>
-        </div>
-        <IonFabButton color={"success"} onClick={handleCartClick}>
+        <IonFabButton color={"danger"} onClick={handleCartClick}>
           <IonIcon icon={cartOutline} />
         </IonFabButton>
       </div>

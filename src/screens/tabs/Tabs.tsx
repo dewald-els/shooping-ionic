@@ -19,8 +19,6 @@ import useProductSubscription from "../../hooks/useProductSubscription";
 import useProductOptionSubscription from "../../hooks/useProductOptionSubscription";
 import { AppRoutes } from "../../consts/routes";
 import TermsAndConditionsScreen from "../terms-and-conditions/TermsAndConditions";
-import CartFab from "../../components/cart/CartFab";
-import CartTabScreen from "./CartTab";
 
 const TabScreen: React.FC = () => {
   useProductSubscription();
@@ -36,7 +34,6 @@ const TabScreen: React.FC = () => {
         <Route path="/tabs/products" component={ProductsTabScreen} />
         <Route path="/tabs/you" component={YouTabScreen} />
         <Route path="/tabs/us" component={UsTabScreen} />
-        <Route path="/tabs/cart" component={CartTabScreen} />
         <Route
           path={AppRoutes.TermsAndConditionsTabScreen}
           component={TermsAndConditionsScreen}

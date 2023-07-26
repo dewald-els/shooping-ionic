@@ -29,6 +29,7 @@ interface AppState {
 
   cart: Cart | null;
   addToCart: (productOption: CartProductOption[]) => void;
+  clearCart: () => void;
 }
 
 const useAppStore = create<AppState>()(
@@ -97,8 +98,13 @@ const useAppStore = create<AppState>()(
         },
 
         cart: null,
+        clearCart: () => {
+          set((state) => omit(state, ["cart"]), true);
+        },
         addToCart: (productOptions: CartProductOption[]) => {
           const cart = get().cart;
+          const currentProductOptions = cart?.product_options ?? [];
+
           let updatedCart: Cart | null = cart ? { ...cart } : null;
 
           if (!updatedCart) {
@@ -112,7 +118,7 @@ const useAppStore = create<AppState>()(
           set({
             cart: {
               ...updatedCart,
-              product_options: [...productOptions],
+              product_options: [...currentProductOptions, ...productOptions],
             },
           });
         },

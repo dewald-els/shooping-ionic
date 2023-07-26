@@ -15,10 +15,12 @@ import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
 import OrderHistoryList from "../../components/order-history/OrderHistoryList";
 import ProfileSummary from "../../components/profile/ProfileSummary";
+import useAppStore from "../../store/store";
 
 const YouTabScreen: React.FC = () => {
   const router = useIonRouter();
   const { session } = useAuth();
+
   const { profile, error } = useProfile(session?.user.id);
 
   const [logoutError, setLogoutError] = useState<string | undefined>();

@@ -27,7 +27,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import LoginScreen from "./screens/login/Login";
 import { AppRoutes } from "./consts/routes";
 import TermsAndConditionsScreen from "./screens/terms-and-conditions/TermsAndConditions";
-import CartFab from "./components/cart/CartFab";
+import CartScreen from "./screens/cart/Cart";
 
 setupIonicReact();
 
@@ -47,6 +47,14 @@ const App: React.FC = () => (
           render={() => (
             <PrivateRoute>
               <TabScreen />
+            </PrivateRoute>
+          )}
+        />
+        <Route
+          path={AppRoutes.CartScreen}
+          render={() => (
+            <PrivateRoute>
+              <CartScreen />
             </PrivateRoute>
           )}
         />

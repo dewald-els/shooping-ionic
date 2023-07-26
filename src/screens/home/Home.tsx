@@ -20,14 +20,20 @@ import { AppRoutes } from "../../consts/routes";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { hourglassOutline, informationCircleOutline } from "ionicons/icons";
+import useAppStore from "../../store/store";
 
 const HomeScreen: React.FC = () => {
   const router = useIonRouter();
+  const clearCart = useAppStore((state) => state.clearCart);
   const { session } = useAuth();
   const [isReady, setIsReady] = useState(false);
   const handleCreateAccountClick = () => {
     router.push(AppRoutes.CreateAccount);
   };
+
+  useEffect(() => {
+    clearCart();
+  }, []);
 
   useEffect(() => {
     let timer = setTimeout(() => {

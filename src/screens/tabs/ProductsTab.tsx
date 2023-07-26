@@ -1,6 +1,10 @@
 import {
+  IonBadge,
+  IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonPage,
   IonSearchbar,
   IonText,
@@ -9,6 +13,7 @@ import {
   IonToolbar,
   SearchbarChangeEventDetail,
   useIonModal,
+  useIonRouter,
 } from "@ionic/react";
 
 import ProductList from "../../components/product-list/ProductList";
@@ -18,9 +23,11 @@ import ProductOptionsModal from "../../components/product-options-modal/ProductO
 import { Product } from "../../models/product";
 import useAppStore from "../../store/store";
 import CartFab from "../../components/cart/CartFab";
+import CartToolbarButton from "../../components/cart/CartToolbarButton";
 
 const ProductsTabScreen: React.FC = () => {
   const pageRef = useRef();
+
   const { products } = useProducts();
   const setSelectedProduct = useAppStore((state) => state.setSelectedProduct);
   const clearSelectedProduct = useAppStore(
@@ -67,6 +74,7 @@ const ProductsTabScreen: React.FC = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle>Products</IonTitle>
+          <CartToolbarButton />
         </IonToolbar>
         <IonToolbar color="primary">
           <IonSearchbar onIonInput={handleSearchInputChange} />
