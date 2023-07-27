@@ -65,7 +65,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const handleAddClick = () => {
     if (!selectedProduct || !selectedProductOption || quantity === 0) return;
 
-    addToCart([
+    addToCart(
       {
         id: selectedProductOption.id,
         name: selectedProductOption.name,
@@ -73,7 +73,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         quantity,
         image: selectedProduct?.image,
       },
-    ]);
+    );
   };
 
   const priceToAdd = formatCurrency(

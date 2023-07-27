@@ -49,7 +49,7 @@ const CartScreen: React.FC = () => {
             const unitPrice = formatCurrency(option.unit_price);
 
             return (
-              <IonItem>
+              <IonItem key={option.id}>
                 <IonLabel>
                   <h2>
                     {option.quantity} x {option.name}

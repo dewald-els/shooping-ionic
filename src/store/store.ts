@@ -28,7 +28,7 @@ interface AppState {
   setProfile: (profile: Profile) => void;
 
   cart: Cart | null;
-  addToCart: (productOption: CartProductOption[]) => void;
+  addToCart: (productOption: CartProductOption) => void;
   clearCart: () => void;
 }
 
@@ -101,10 +101,9 @@ const useAppStore = create<AppState>()(
         clearCart: () => {
           set((state) => omit(state, ["cart"]), true);
         },
-        addToCart: (productOptions: CartProductOption[]) => {
+        addToCart: (productOption: CartProductOption) => {
           const cart = get().cart;
           const currentProductOptions = cart?.product_options ?? [];
-
           let updatedCart: Cart | null = cart ? { ...cart } : null;
 
           if (!updatedCart) {
@@ -115,10 +114,22 @@ const useAppStore = create<AppState>()(
             };
           }
 
+          const optionInCart = currentProductOptions.find(option => option.id === productOption.id);
+
+          const newOptions = optionInCart ? currentProductOptions.map((option) => {
+            if (option.id === optionInCart.id) {
+              return {
+                ...option,
+                quantity: option.quantity + productOption.quantity,
+              }
+            }
+            return option;
+          }) : [...currentProductOptions, productOption]
+
           set({
             cart: {
               ...updatedCart,
-              product_options: [...currentProductOptions, ...productOptions],
+              product_options: [...newOptions],
             },
           });
         },
