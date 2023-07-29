@@ -13,12 +13,14 @@ import {
   IonTitle,
   IonToolbar,
   RadioGroupChangeEventDetail,
+  useIonToast,
 } from "@ionic/react";
 import useProductOptions from "../../hooks/useProductOptions";
 import useAppStore from "../../store/store";
 import { ProductOption } from "../../models/product-option";
 import formatCurrency from "../../utils/formatCurrency";
 import ProductOptionsLoader from "./ProductOptionsLoader";
+import { basketOutline } from "ionicons/icons";
 
 type ProductOptionsModalProps = {
   onDismiss: () => void;
@@ -31,6 +33,7 @@ enum QuantityAction {
 
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
+  const [presentToast, dismissToast] = useIonToast();
   const selectedProduct = useAppStore((state) => state.selectedProduct);
   const addToCart = useAppStore((state) => state.addToCart);
   const [selectedProductOption, setSelectedProductOption] =
@@ -62,18 +65,32 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
     }
   };
 
-  const handleAddClick = () => {
+  const handleAddClick = async () => {
     if (!selectedProduct || !selectedProductOption || quantity === 0) return;
 
-    addToCart(
-      {
-        id: selectedProductOption.id,
-        name: selectedProductOption.name,
-        unit_price: selectedProductOption.price || 0,
-        quantity,
-        image: selectedProduct?.image,
-      },
-    );
+    addToCart({
+      id: selectedProductOption.id,
+      name: selectedProductOption.name,
+      unit_price: selectedProductOption.price || 0,
+      quantity,
+      image: selectedProduct?.image,
+    });
+
+    await presentToast({
+      icon: basketOutline,
+      message: `Added ${quantity} x ${selectedProductOption.name} to order`,
+      duration: 5000,
+      color: "dark",
+      position: "top",
+      buttons: [
+        {
+          text: "Ok",
+          handler: () => {
+            dismissToast();
+          },
+        },
+      ],
+    });
   };
 
   const priceToAdd = formatCurrency(

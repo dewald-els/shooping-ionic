@@ -30,6 +30,7 @@ interface AppState {
   cart: Cart | null;
   addToCart: (productOption: CartProductOption) => void;
   clearCart: () => void;
+  removeProductOptionFromCart: (productOptionId: number) => void;
 }
 
 const useAppStore = create<AppState>()(
@@ -114,22 +115,50 @@ const useAppStore = create<AppState>()(
             };
           }
 
-          const optionInCart = currentProductOptions.find(option => option.id === productOption.id);
+          const optionInCart = currentProductOptions.find(
+            (option) => option.id === productOption.id
+          );
 
-          const newOptions = optionInCart ? currentProductOptions.map((option) => {
-            if (option.id === optionInCart.id) {
-              return {
-                ...option,
-                quantity: option.quantity + productOption.quantity,
-              }
-            }
-            return option;
-          }) : [...currentProductOptions, productOption]
+          const newOptions = optionInCart
+            ? currentProductOptions.map((option) => {
+                if (option.id === optionInCart.id) {
+                  return {
+                    ...option,
+                    quantity: option.quantity + productOption.quantity,
+                  };
+                }
+                return option;
+              })
+            : [...currentProductOptions, productOption];
 
           set({
             cart: {
               ...updatedCart,
               product_options: [...newOptions],
+            },
+          });
+        },
+        removeProductOptionFromCart: (productOptionId: number) => {
+          const cart = get().cart;
+          if (!cart) return;
+
+          const currentProductOptions = cart?.product_options ?? [];
+
+          if (currentProductOptions.length === 0) return;
+
+          const updatedProductOptions = currentProductOptions.filter(
+            (option) => option.id !== productOptionId
+          );
+
+          if (updatedProductOptions.length === 0) {
+            set((state) => omit(state, ["cart"]), true);
+            return;
+          }
+
+          set({
+            cart: {
+              ...cart,
+              product_options: [...updatedProductOptions],
             },
           });
         },
