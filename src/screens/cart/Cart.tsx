@@ -12,6 +12,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonAlert,
   useIonRouter,
 } from "@ionic/react";
 import useAppStore from "../../store/store";
@@ -22,27 +23,50 @@ import {
   informationCircleOutline,
   trashBinOutline,
 } from "ionicons/icons";
+import { CartProductOption } from "../../models/cart";
 
 const CartScreen: React.FC = () => {
   const router = useIonRouter();
+  const [presentAlert, dismissAlert] = useIonAlert();
   const cart = useAppStore((state) => state.cart);
   const removeProductOptionFromCart = useAppStore(
     (state) => state.removeProductOptionFromCart
   );
-  const productOptions = [];
+  const productOptions: CartProductOption[] = [];
 
   if (cart) {
     productOptions.push(...cart.product_options);
   }
 
   const handleRemoveItemFromCart = (productOptionId: number) => {
-    console.log("removing...");
-    removeProductOptionFromCart(productOptionId);
+    const option = productOptions.find((o) => o.id === productOptionId);
+    presentAlert({
+      header: "Remove item from cart?",
+      message: `Remove ${option?.name} from your cart?`,
+      buttons: [
+        "Cancel",
+        {
+          text: "Yes, Remove",
+          cssClass: "danger",
+          role: "destructive",
+          handler: () => {
+            removeProductOptionFromCart(productOptionId);
+          },
+        },
+      ],
+    });
   };
 
   const handleGoShoppingClick = () => {
     router.goBack();
   };
+
+  const cartTotal = productOptions.reduce(
+    (total, option) => total + option.unit_price * option.quantity,
+    0
+  );
+
+  const cartTotalCurrency = formatCurrency(cartTotal);
 
   return (
     <IonPage>
@@ -85,24 +109,31 @@ const CartScreen: React.FC = () => {
             const unitPrice = formatCurrency(option.unit_price);
 
             return (
-              <IonItem key={option.id}>
-                <IonLabel>
-                  <h2>
-                    {option.quantity} x {option.name}
-                  </h2>
-                  <p>{unitPrice}</p>
-                </IonLabel>
-                <IonLabel slot="end">
-                  <h2>{linePrice}</h2>
-                </IonLabel>
-                <IonButton
-                  slot="end"
-                  color="danger"
-                  onClick={() => handleRemoveItemFromCart(option.id)}
-                >
-                  <IonIcon slot="icon-only" icon={closeOutline} />
-                </IonButton>
-              </IonItem>
+              <>
+                <IonItem key={option.id} lines="none">
+                  <IonLabel>
+                    <h2>{option.name}</h2>
+                    <p>{unitPrice}</p>
+                  </IonLabel>
+                  <IonLabel slot="end">
+                    <h2>{linePrice}</h2>
+                  </IonLabel>
+                  <IonButton
+                    slot="end"
+                    color="danger"
+                    onClick={() => handleRemoveItemFromCart(option.id)}
+                  >
+                    <IonIcon slot="icon-only" icon={closeOutline} />
+                  </IonButton>
+                </IonItem>
+                <IonItem lines="full">
+                  <div slot="start" className="flex items-center">
+                    <IonButton>-</IonButton>
+                    <span>{option.quantity}</span>
+                    <IonButton>+</IonButton>
+                  </div>
+                </IonItem>
+              </>
             );
           })}
         </IonList>
@@ -110,7 +141,7 @@ const CartScreen: React.FC = () => {
       {productOptions.length > 0 && (
         <IonFooter>
           <IonToolbar>
-            <IonButton slot="end">Confirm Order</IonButton>
+            <IonButton slot="end">Confirm Order {cartTotalCurrency}</IonButton>
           </IonToolbar>
         </IonFooter>
       )}
