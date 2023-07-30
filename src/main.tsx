@@ -3,10 +3,16 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import "./main.css";
 import { StatusBar } from "@capacitor/status-bar";
+import { Capacitor } from "@capacitor/core";
 
-StatusBar.setBackgroundColor({
-  color: "#3880ff",
-});
+if (
+  Capacitor.isPluginAvailable("StatusBar") &&
+  Capacitor.getPlatform() === "android"
+) {
+  StatusBar.setBackgroundColor({
+    color: "#3880ff",
+  });
+}
 
 const container = document.getElementById("root");
 const root = createRoot(container!);

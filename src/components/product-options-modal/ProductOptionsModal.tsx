@@ -1,10 +1,12 @@
 import { useState } from "react";
 import {
+  IonBadge,
   IonButton,
   IonButtons,
   IonContent,
   IonFooter,
   IonHeader,
+  IonImg,
   IonItem,
   IonPage,
   IonRadio,
@@ -21,15 +23,13 @@ import { ProductOption } from "../../models/product-option";
 import formatCurrency from "../../utils/formatCurrency";
 import ProductOptionsLoader from "./ProductOptionsLoader";
 import { basketOutline } from "ionicons/icons";
+import QuantityButtons from "../quantity-buttons/QuantityButtons";
+import ProductOptionsModalTitle from "./ProductOptionsModalTitle";
+import ProductOptionsModalImage from "./ProductOptionsModalImage";
 
 type ProductOptionsModalProps = {
   onDismiss: () => void;
 };
-
-enum QuantityAction {
-  Add,
-  Remove,
-}
 
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
@@ -41,19 +41,8 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { productOptions = [], error } = useProductOptions(selectedProduct);
   const [quantity, setQuantity] = useState(0);
 
-  const handleQuantityChange = (action: QuantityAction) => {
-    switch (action) {
-      case QuantityAction.Add:
-        setQuantity((qty) =>
-          qty < (selectedProductOption?.stock || 0) ? qty + 1 : qty
-        );
-        break;
-      case QuantityAction.Remove:
-        setQuantity((qty) => (qty > 0 ? qty - 1 : 0));
-        break;
-      default:
-        return;
-    }
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
   };
 
   const handleOptionChange = (e: CustomEvent<RadioGroupChangeEventDetail>) => {
@@ -73,6 +62,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
       name: selectedProductOption.name,
       unit_price: selectedProductOption.price || 0,
       quantity,
+      stock: selectedProductOption.stock,
       image: selectedProduct?.image,
     });
 
@@ -101,7 +91,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Product options</IonTitle>
+          <IonTitle>{selectedProduct?.name}</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={onDismiss}>Close</IonButton>
           </IonButtons>
@@ -110,52 +100,46 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
       <IonContent>
         {productOptions.length === 0 && <ProductOptionsLoader />}
 
-        <IonRadioGroup onIonChange={handleOptionChange}>
-          {productOptions.map((option: ProductOption) => {
-            const optionDisplayPrice = formatCurrency(option.price);
-            return (
-              <IonItem key={option.id}>
-                <IonRadio
-                  mode="md"
-                  labelPlacement="end"
-                  justify="start"
-                  value={option.id}
-                  disabled={option.stock <= 0}
-                >
-                  {option.name}
-                </IonRadio>
-                {option.stock > 0 && (
-                  <span slot="end">{optionDisplayPrice}</span>
-                )}
-                {option.stock <= 0 && (
-                  <IonText color="danger" slot="end">
-                    <span>Out of stock</span>
-                  </IonText>
-                )}
-              </IonItem>
-            );
-          })}
-        </IonRadioGroup>
+        {selectedProduct && productOptions.length > 0 && (
+          <>
+            <ProductOptionsModalImage product={selectedProduct} />
+            <ProductOptionsModalTitle product={selectedProduct} />
+            <IonRadioGroup onIonChange={handleOptionChange}>
+              {productOptions.map((option: ProductOption) => {
+                const optionDisplayPrice = formatCurrency(option.price);
+                return (
+                  <IonItem key={option.id}>
+                    <IonRadio
+                      mode="md"
+                      labelPlacement="end"
+                      justify="start"
+                      value={option.id}
+                      disabled={option.stock <= 0}
+                    >
+                      {option.name}
+                    </IonRadio>
+                    {option.stock > 0 && (
+                      <span slot="end">{optionDisplayPrice}</span>
+                    )}
+                    {option.stock <= 0 && (
+                      <IonText color="danger" slot="end">
+                        <span>Out of stock</span>
+                      </IonText>
+                    )}
+                  </IonItem>
+                );
+              })}
+            </IonRadioGroup>
+          </>
+        )}
       </IonContent>
       <IonFooter slot="bottom">
         <IonToolbar>
           <div className="flex justify-between items-center ion-padding-start ion-padding-end">
-            <div className="flex items-center gap-1">
-              <IonButton
-                fill="outline"
-                onClick={() => handleQuantityChange(QuantityAction.Remove)}
-              >
-                -
-              </IonButton>
-              <IonText className="font-bold text-lg">
-                <span>{quantity}</span>
-              </IonText>
-              <IonButton
-                onClick={() => handleQuantityChange(QuantityAction.Add)}
-              >
-                +
-              </IonButton>
-            </div>
+            <QuantityButtons
+              limit={selectedProductOption?.stock || 0}
+              onQuantityChange={handleQuantityChange}
+            />
             <div>
               <div>
                 <IonButton onClick={handleAddClick}>

@@ -19,8 +19,9 @@ const useProductOptions = (product: Product | null): UseProductOption => {
     if (!product) return;
 
     selectAllProductOptionsByProduct(product)
-      .then(({ data, error }: SupabaseResponse<ProductOption[]>) => {
-        setProductOptions(data);
+      .then(({ data = [], error }: SupabaseResponse<ProductOption[]>) => {
+        const options = data.sort((a, b) => a.display_order - b.display_order);
+        setProductOptions(options);
         setError(error);
       })
       .catch((error) => {

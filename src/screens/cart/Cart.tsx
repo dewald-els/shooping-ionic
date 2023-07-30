@@ -7,6 +7,7 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
+  IonItemGroup,
   IonLabel,
   IonList,
   IonPage,
@@ -19,11 +20,14 @@ import useAppStore from "../../store/store";
 import formatCurrency from "../../utils/formatCurrency";
 import {
   basketOutline,
+  checkmarkCircleOutline,
   closeOutline,
   informationCircleOutline,
   trashBinOutline,
 } from "ionicons/icons";
 import { CartProductOption } from "../../models/cart";
+import QuantityButtons from "../../components/quantity-buttons/QuantityButtons";
+import CartClearAllButton from "../../components/cart/CartClearAllButton";
 
 const CartScreen: React.FC = () => {
   const router = useIonRouter();
@@ -76,16 +80,10 @@ const CartScreen: React.FC = () => {
             <IonBackButton defaultHref="/tabs/products" />
           </IonButtons>
           <IonTitle>Cart</IonTitle>
-          {productOptions.length > 0 && (
-            <IonButtons slot="end">
-              <IonButton slot="start">
-                <IonIcon slot="icon-only" icon={trashBinOutline} />
-              </IonButton>
-            </IonButtons>
-          )}
+          {productOptions.length > 0 && <CartClearAllButton />}
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent fullscreen>
         {productOptions.length === 0 && (
           <>
             <IonItem>
@@ -109,8 +107,8 @@ const CartScreen: React.FC = () => {
             const unitPrice = formatCurrency(option.unit_price);
 
             return (
-              <>
-                <IonItem key={option.id} lines="none">
+              <IonItemGroup key={option.id}>
+                <IonItem key={"item-" + option.id} lines="none">
                   <IonLabel>
                     <h2>{option.name}</h2>
                     <p>{unitPrice}</p>
@@ -126,14 +124,14 @@ const CartScreen: React.FC = () => {
                     <IonIcon slot="icon-only" icon={closeOutline} />
                   </IonButton>
                 </IonItem>
-                <IonItem lines="full">
-                  <div slot="start" className="flex items-center">
-                    <IonButton>-</IonButton>
-                    <span>{option.quantity}</span>
-                    <IonButton>+</IonButton>
-                  </div>
+                <IonItem lines="full" key={"quantity-" + option.id}>
+                  <QuantityButtons
+                    startQuantity={option.quantity}
+                    limit={option.stock}
+                    onQuantityChange={() => {}}
+                  />
                 </IonItem>
-              </>
+              </IonItemGroup>
             );
           })}
         </IonList>
@@ -141,7 +139,12 @@ const CartScreen: React.FC = () => {
       {productOptions.length > 0 && (
         <IonFooter>
           <IonToolbar>
-            <IonButton slot="end">Confirm Order {cartTotalCurrency}</IonButton>
+            <div className="flex justify-center">
+              <IonButton color="success">
+                <IonIcon slot="start" icon={checkmarkCircleOutline} />
+                Confirm Order {cartTotalCurrency}
+              </IonButton>
+            </div>
           </IonToolbar>
         </IonFooter>
       )}

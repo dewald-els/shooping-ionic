@@ -9,7 +9,7 @@ const OrderHistoryList: React.FC = () => {
             <h1>Order history</h1>
           </IonLabel>
         </IonItem>
-        <IonItem button>
+        <IonItem button detail={true}>
           <IonLabel>
             <h2>Order #1234</h2>
             <p>23 July 2023</p>
@@ -18,7 +18,7 @@ const OrderHistoryList: React.FC = () => {
             <span>R450</span>
           </IonText>
         </IonItem>
-        <IonItem button>
+        <IonItem button detail={true}>
           <IonLabel>
             <h2>Order #1235</h2>
             <p>R200</p>
@@ -27,7 +27,7 @@ const OrderHistoryList: React.FC = () => {
             <span>R300</span>
           </IonText>
         </IonItem>
-        <IonItem button>
+        <IonItem button detail={true}>
           <IonLabel>
             <h2>Order #1224</h2>
             <p>R120</p>

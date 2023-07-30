@@ -18,19 +18,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
       const category = productCategories[categoryKey];
       return (
         <IonList key={category.id}>
-          <IonItem
-            lines="none"
-            style={{
-              color: category.color,
-            }}
-          >
-            <IonIcon
-              icon={flowerOutline}
-              slot="start"
-              style={{
-                color: category.color,
-              }}
-            />
+          <IonItem lines="none">
             <IonLabel>
               <h1>{category.name}</h1>
             </IonLabel>

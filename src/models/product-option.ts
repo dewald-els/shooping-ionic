@@ -7,4 +7,5 @@ export interface ProductOption {
   show: boolean;
   stock: number;
   created_at: string;
+  display_order: number;
 }

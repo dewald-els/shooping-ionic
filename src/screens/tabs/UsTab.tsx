@@ -30,7 +30,7 @@ const UsTabScreen: React.FC = () => {
         <br />
 
         <IonList>
-          <IonItem button onClick={handleTermsClick}>
+          <IonItem button onClick={handleTermsClick} detail={true}>
             Terms and conditions
           </IonItem>
         </IonList>

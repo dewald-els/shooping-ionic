@@ -10,4 +10,5 @@ export interface CartProductOption {
   image: string;
   quantity: number;
   unit_price: number;
+  stock: number;
 }

@@ -11,6 +11,12 @@ import {
 } from "@ionic/react";
 import { Profile } from "../../models/profile";
 import { User } from "@supabase/supabase-js";
+import {
+  locationOutline,
+  pencil,
+  pencilOutline,
+  personOutline,
+} from "ionicons/icons";
 
 type ProfileProps = {
   user: User | undefined;
@@ -24,9 +30,18 @@ const ProfileSummary: React.FC<ProfileProps> = (props) => {
     <IonList>
       <IonItem>
         <IonLabel>
-          <h1>Contact</h1>
+          <h1>Your information</h1>
         </IonLabel>
-        <IonButton slot="end">Edit</IonButton>
+        <IonButton slot="end">
+          <IonIcon slot="start" icon={pencil} />
+          Edit
+        </IonButton>
+      </IonItem>
+      <IonItem>
+        <IonIcon slot="start" icon={personOutline} />
+        <IonLabel>
+          <h2>Contact</h2>
+        </IonLabel>
       </IonItem>
       <IonItem>
         <IonLabel>
@@ -37,8 +52,9 @@ const ProfileSummary: React.FC<ProfileProps> = (props) => {
       </IonItem>
 
       <IonItem>
+        <IonIcon slot="start" icon={locationOutline} />
         <IonLabel>
-          <h1>Address</h1>
+          <h2>Address</h2>
         </IonLabel>
       </IonItem>
       <IonItem>
