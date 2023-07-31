@@ -1,29 +1,22 @@
 import {
-  IonBadge,
-  IonButton,
-  IonButtons,
   IonContent,
   IonHeader,
-  IonIcon,
   IonPage,
   IonSearchbar,
-  IonText,
-  IonThumbnail,
   IonTitle,
   IonToolbar,
   SearchbarChangeEventDetail,
   useIonModal,
-  useIonRouter,
 } from "@ionic/react";
 
 import ProductList from "../../components/product-list/ProductList";
 import useProducts from "../../hooks/useProducts";
 import { useRef, useState } from "react";
-import ProductOptionsModal from "../../components/product-options-modal/ProductOptionsModal";
 import { Product } from "../../models/product";
 import useAppStore from "../../store/store";
 import CartFab from "../../components/cart/CartFab";
 import CartToolbarButton from "../../components/cart/CartToolbarButton";
+import ProductOptionsModal from "../../modals/product-options/ProductOptionsModal";
 
 const ProductsTabScreen: React.FC = () => {
   const pageRef = useRef();

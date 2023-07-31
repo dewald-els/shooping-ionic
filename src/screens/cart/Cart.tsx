@@ -6,7 +6,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  useIonAlert,
+  useIonModal,
   useIonRouter,
 } from "@ionic/react";
 import useAppStore from "../../store/store";
@@ -17,12 +17,24 @@ import CartConfirmOrderButton from "../../components/cart/CartConfirmOrderButton
 import CartOrderItems from "../../components/cart/CartOrderItems";
 import CartOrderEmpty from "../../components/cart/CartOrderEmpty";
 import { selectProductOptionStock } from "../../services/product-options";
+import { Order } from "../../models/order";
+import useProfile from "../../hooks/useProfile";
+import { useAuth } from "../../context/AuthContext";
+import CartConfirmOrderModal from "../../modals/cart/CartConfirmOrder";
+import { useRef } from "react";
 
 const CartScreen: React.FC = () => {
+  const pageRef = useRef();
+
   const router = useIonRouter();
+  const [presentModal, dismissModal] = useIonModal(CartConfirmOrderModal, {
+    onDismiss: () => dismissModal(),
+  });
   const cart = useAppStore((state) => state.cart);
+  const addOrder = useAppStore((state) => state.addOrder);
+  const { session } = useAuth();
+  const { profile } = useProfile(session?.user.id);
   const productOptions: CartProductOption[] = [];
-  const [presentAlert] = useIonAlert();
 
   if (cart) {
     productOptions.push(...cart.product_options);
@@ -62,11 +74,20 @@ const CartScreen: React.FC = () => {
 
     if (missingStockItems.length > 0) {
     } else {
+      const order: Order = {
+        product_options: productOptions,
+        total: cartTotal,
+        profile_id: profile!.id,
+      };
+      addOrder(order);
+      presentModal({
+        presentingElement: pageRef.current,
+      });
     }
   };
 
   return (
-    <IonPage>
+    <IonPage ref={pageRef}>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
