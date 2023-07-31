@@ -17,14 +17,14 @@ export const selectAllProductOptionsByProduct = async (
   };
 };
 
-export const selectProductOptionQuantity = async (productOptionId: number) => {
+export const selectProductOptionStock = async (productOptionIds: number[]) => {
   const { data, error } = await supabase
     .from(SupabaseTable.productOptions)
-    .select("stock")
-    .eq("id", productOptionId);
+    .select("id, stock")
+    .in("id", productOptionIds);
 
   return {
-    data,
+    data: data as { id: number; stock: number }[],
     error,
   };
 };

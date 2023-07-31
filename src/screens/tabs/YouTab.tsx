@@ -44,7 +44,7 @@ const YouTabScreen: React.FC = () => {
       </IonHeader>
       <IonContent>
         <ProfileSummary profile={profile} user={session?.user} />
-        <OrderHistoryList />
+        <OrderHistoryList orders={[]} />
 
         <div className="flex justify-center ion-padding">
           <IonButton color="danger" fill="clear" id="prompt-logout">

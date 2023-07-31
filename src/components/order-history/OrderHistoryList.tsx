@@ -1,14 +1,32 @@
-import { IonButton, IonItem, IonLabel, IonList, IonText } from "@ionic/react";
+import {
+  IonButton,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonText,
+} from "@ionic/react";
+import { receiptOutline } from "ionicons/icons";
 
-const OrderHistoryList: React.FC = () => {
+type OrderHistoryListProps = {
+  orders: any[];
+};
+
+const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
+  const { orders = [] } = props;
   return (
     <>
       <IonList>
         <IonItem>
+          <IonIcon slot="start" icon={receiptOutline} />
           <IonLabel>
             <h1>Order history</h1>
           </IonLabel>
         </IonItem>
+
+        {orders.length === 0 && (
+          <IonItem>You haven't completed any orders</IonItem>
+        )}
         <IonItem button detail={true}>
           <IonLabel>
             <h2>Order #1234</h2>

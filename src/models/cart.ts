@@ -11,4 +11,5 @@ export interface CartProductOption {
   quantity: number;
   unit_price: number;
   stock: number;
+  availableStock?: number;
 }
