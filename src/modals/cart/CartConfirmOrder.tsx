@@ -9,6 +9,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonRouter,
 } from "@ionic/react";
 import { useAuth } from "../../context/AuthContext";
 import useProfile from "../../hooks/useProfile";
@@ -22,8 +23,18 @@ import useAppStore from "../../store/store";
 import { selectProductOptionStock } from "../../services/product-options";
 import { insertOrder } from "../../services/orders";
 import formatCurrency from "../../utils/formatCurrency";
+import CartConfirmOrderSuccess from "./CartConfirmOrderSuccess";
+import { AppRoutes } from "../../consts/routes";
 
-const CartConfirmOrderModal = () => {
+type CartConfirmOrderModalProps = {
+  onDismiss: (data?: boolean, role?: string) => void;
+};
+
+const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
+  const { onDismiss } = props;
+
+  const [orderCompleted, setOrderCompleted] = useState(false);
+
   const { session } = useAuth();
   const order = useAppStore((state) => state.order);
   const { profile } = useProfile(session?.user.id);
@@ -61,7 +72,12 @@ const CartConfirmOrderModal = () => {
     if (missingStockItems.length > 0) {
     } else {
       const { data, error } = await insertOrder(order!);
+      setOrderCompleted(!error);
     }
+  };
+
+  const handleViewOrderClick = () => {
+    onDismiss(orderCompleted, orderCompleted ? "confirm" : "cancel");
   };
 
   const orderTotalCurrency = formatCurrency(order ? order.total : 0);
@@ -74,7 +90,10 @@ const CartConfirmOrderModal = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {profile && order && (
+        {orderCompleted && (
+          <CartConfirmOrderSuccess onViewOrderClick={handleViewOrderClick} />
+        )}
+        {!orderCompleted && profile && order && (
           <>
             <IonItem>
               <IonIcon slot="start" icon={personOutline} color="primary" />

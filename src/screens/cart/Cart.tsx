@@ -21,14 +21,20 @@ import { Order, OrderStatus } from "../../models/order";
 import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
 import CartConfirmOrderModal from "../../modals/cart/CartConfirmOrder";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AppRoutes } from "../../consts/routes";
 
 const CartScreen: React.FC = () => {
   const pageRef = useRef();
 
+  const [completedOrder, setCompletedOrder] = useState(false);
+
   const router = useIonRouter();
   const [presentModal, dismissModal] = useIonModal(CartConfirmOrderModal, {
-    onDismiss: () => dismissModal(),
+    onDismiss: (success: boolean, role: string) => {
+      setCompletedOrder(success && role === "confirm");
+      dismissModal();
+    },
   });
   const cart = useAppStore((state) => state.cart);
   const setOrder = useAppStore((state) => state.setOrder);
@@ -39,6 +45,16 @@ const CartScreen: React.FC = () => {
   if (cart) {
     productOptions.push(...cart.product_options);
   }
+
+  useEffect(() => {
+    if (completedOrder) {
+      router.push(
+        AppRoutes.Tabs + "/" + AppRoutes.YouTabScreen,
+        "root",
+        "replace"
+      );
+    }
+  }, [completedOrder]);
 
   const handleGoShoppingClick = () => {
     router.goBack();

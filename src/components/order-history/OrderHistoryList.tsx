@@ -5,6 +5,7 @@ import {
   IonLabel,
   IonList,
   IonText,
+  useIonRouter,
 } from "@ionic/react";
 import { receiptOutline } from "ionicons/icons";
 
@@ -14,6 +15,7 @@ type OrderHistoryListProps = {
 
 const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
   const { orders = [] } = props;
+  const router = useIonRouter();
   return (
     <>
       <IonList>
@@ -27,7 +29,13 @@ const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
         {orders.length === 0 && (
           <IonItem>You haven't completed any orders</IonItem>
         )}
-        <IonItem button detail={true}>
+        <IonItem
+          button
+          detail={true}
+          onClick={() => {
+            router.push("/tabs/you/order-history/1234", "forward", "push");
+          }}
+        >
           <IonLabel>
             <h2>Order #1234</h2>
             <p>23 July 2023</p>

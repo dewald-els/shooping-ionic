@@ -32,7 +32,11 @@ const TabScreen: React.FC = () => {
         </Route>
 
         <Route path="/tabs/products" component={ProductsTabScreen} />
-        <Route path="/tabs/you" component={YouTabScreen} />
+        <Route exact path="/tabs/you" component={YouTabScreen} />
+        <Route
+          path="/tabs/you/order-history/:orderId"
+          component={TermsAndConditionsScreen}
+        />
         <Route path="/tabs/us" component={UsTabScreen} />
         <Route
           path={AppRoutes.TermsAndConditionsTabScreen}
