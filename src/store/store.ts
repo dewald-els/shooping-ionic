@@ -33,9 +33,12 @@ interface AppState {
   clearCart: () => void;
   removeProductOptionFromCart: (productOptionId: number) => void;
 
-  orders: Order[];
-  addOrder: (order: Order) => void;
-  setOrders: (orders: Order[]) => void;
+  orderHistory: Order[];
+  setOrderHistory: (orders: Order[]) => void;
+
+  order: Order | null;
+  clearOrder: () => void;
+  setOrder: (order: Order) => void;
 }
 
 const useAppStore = create<AppState>()(
@@ -169,12 +172,16 @@ const useAppStore = create<AppState>()(
         },
 
         // Orders
-        orders: [],
-        addOrder: (order: Order) => {
-          const orders = get().orders;
-          set(() => ({ orders: [...orders, order] }));
+        order: null,
+        clearOrder: () => {
+          set((state) => omit(state, ["order"]), true);
         },
-        setOrders: (orders: Order[]) => {
+        setOrder: (order: Order) => {
+          set(() => ({ order: order ?? null }));
+        },
+
+        orderHistory: [],
+        setOrderHistory: (orders: Order[]) => {
           set(() => ({ orders }));
         },
       }),

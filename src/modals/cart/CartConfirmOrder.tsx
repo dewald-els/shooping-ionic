@@ -18,12 +18,53 @@ import {
   personOutline,
 } from "ionicons/icons";
 import { useState } from "react";
+import useAppStore from "../../store/store";
+import { selectProductOptionStock } from "../../services/product-options";
+import { insertOrder } from "../../services/orders";
+import formatCurrency from "../../utils/formatCurrency";
 
 const CartConfirmOrderModal = () => {
   const { session } = useAuth();
+  const order = useAppStore((state) => state.order);
   const { profile } = useProfile(session?.user.id);
   const [acceptCorrectInformation, setAcceptCorrectInformation] =
     useState<boolean>(false);
+
+  const handleConfirmClick = async () => {
+    if (!order) {
+      console.log("There is no order...");
+      return;
+    }
+
+    const productOptions = order.product_options;
+
+    const cartProductOptionIds = productOptions.map((option) => option.id);
+    const { data: availableProductOptions, error } =
+      await selectProductOptionStock(cartProductOptionIds);
+    const productOptionsWithAvailableStock = productOptions.map((option) => {
+      const availableOption = availableProductOptions?.find(
+        (o) => o.id === option.id
+      );
+      if (availableOption) {
+        return {
+          ...option,
+          availableStock: availableOption.stock,
+        };
+      }
+      return option;
+    });
+
+    const missingStockItems = productOptionsWithAvailableStock.filter(
+      (option) => option.quantity > (option.availableStock ?? 0)
+    );
+
+    if (missingStockItems.length > 0) {
+    } else {
+      const { data, error } = await insertOrder(order!);
+    }
+  };
+
+  const orderTotalCurrency = formatCurrency(order ? order.total : 0);
 
   return (
     <IonPage>
@@ -33,7 +74,7 @@ const CartConfirmOrderModal = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {profile && (
+        {profile && order && (
           <>
             <IonItem>
               <IonIcon slot="start" icon={personOutline} color="primary" />
@@ -73,9 +114,13 @@ const CartConfirmOrderModal = () => {
             </IonItem>
 
             <div className="flex justify-center ion-padding">
-              <IonButton color="success" disabled={!acceptCorrectInformation}>
+              <IonButton
+                color="success"
+                disabled={!acceptCorrectInformation}
+                onClick={handleConfirmClick}
+              >
                 <IonIcon slot="start" icon={checkmarkCircleOutline} />
-                Complete order
+                Complete order for {orderTotalCurrency}
               </IonButton>
             </div>
           </>

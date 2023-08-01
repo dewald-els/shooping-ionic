@@ -1,5 +1,5 @@
 import { SupabaseTable } from "../consts/supabase-table";
-import { Order } from "../models/order";
+import { Order, OrderStatus } from "../models/order";
 import { SupabaseResponse } from "../models/supabase-response";
 import { supabase } from "./supabase";
 
@@ -17,6 +17,23 @@ export const insertOrder = async (
   const { data, error } = await supabase
     .from(SupabaseTable.orders)
     .insert(order);
+  return {
+    data: data?.[0] as unknown as Order,
+    error: error?.hint ?? null,
+  };
+};
+
+export const updateOrderStatus = async (
+  orderId: number,
+  status: OrderStatus
+): Promise<SupabaseResponse<Order>> => {
+  const { data, error } = await supabase
+    .from(SupabaseTable.orders)
+    .update({
+      status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", orderId);
   return {
     data: data?.[0] as unknown as Order,
     error: error?.hint ?? null,

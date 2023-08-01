@@ -17,7 +17,7 @@ import CartConfirmOrderButton from "../../components/cart/CartConfirmOrderButton
 import CartOrderItems from "../../components/cart/CartOrderItems";
 import CartOrderEmpty from "../../components/cart/CartOrderEmpty";
 import { selectProductOptionStock } from "../../services/product-options";
-import { Order } from "../../models/order";
+import { Order, OrderStatus } from "../../models/order";
 import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
 import CartConfirmOrderModal from "../../modals/cart/CartConfirmOrder";
@@ -31,7 +31,7 @@ const CartScreen: React.FC = () => {
     onDismiss: () => dismissModal(),
   });
   const cart = useAppStore((state) => state.cart);
-  const addOrder = useAppStore((state) => state.addOrder);
+  const setOrder = useAppStore((state) => state.setOrder);
   const { session } = useAuth();
   const { profile } = useProfile(session?.user.id);
   const productOptions: CartProductOption[] = [];
@@ -52,38 +52,16 @@ const CartScreen: React.FC = () => {
   const cartTotalCurrency = formatCurrency(cartTotal);
 
   const handleCartConfirmed = async () => {
-    const cartProductOptionIds = productOptions.map((option) => option.id);
-    const { data: availableProductOptions, error } =
-      await selectProductOptionStock(cartProductOptionIds);
-    const productOptionsWithAvailableStock = productOptions.map((option) => {
-      const availableOption = availableProductOptions?.find(
-        (o) => o.id === option.id
-      );
-      if (availableOption) {
-        return {
-          ...option,
-          availableStock: availableOption.stock,
-        };
-      }
-      return option;
+    const order: Order = {
+      product_options: productOptions,
+      total: cartTotal,
+      profile_id: profile!.id,
+      status: OrderStatus.Created,
+    };
+    setOrder(order);
+    presentModal({
+      presentingElement: pageRef.current,
     });
-
-    const missingStockItems = productOptionsWithAvailableStock.filter(
-      (option) => option.quantity > (option.availableStock ?? 0)
-    );
-
-    if (missingStockItems.length > 0) {
-    } else {
-      const order: Order = {
-        product_options: productOptions,
-        total: cartTotal,
-        profile_id: profile!.id,
-      };
-      addOrder(order);
-      presentModal({
-        presentingElement: pageRef.current,
-      });
-    }
   };
 
   return (
