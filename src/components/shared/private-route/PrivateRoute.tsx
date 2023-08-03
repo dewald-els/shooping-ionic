@@ -1,5 +1,5 @@
-import { AppRoutes } from "../../consts/routes";
-import { useAuth } from "../../context/AuthContext";
+import { AppRoutes } from "../../../consts/routes";
+import { useAuth } from "../../../context/AuthContext";
 import { Redirect } from "react-router";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {

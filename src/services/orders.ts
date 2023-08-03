@@ -3,8 +3,13 @@ import { Order, OrderStatus } from "../models/order";
 import { SupabaseResponse } from "../models/supabase-response";
 import { supabase } from "./supabase";
 
-export const selectAllOrders = async (): Promise<SupabaseResponse<Order[]>> => {
-  const { data, error } = await supabase.from(SupabaseTable.orders).select();
+export const selectAllOrdersByProfileId = async (
+  profileId: string
+): Promise<SupabaseResponse<Order[]>> => {
+  const { data, error } = await supabase
+    .from(SupabaseTable.orders)
+    .select()
+    .eq("profile_id", profileId);
   return {
     data: data as unknown as Order[],
     error: error?.hint ?? null,

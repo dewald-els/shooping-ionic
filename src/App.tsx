@@ -23,7 +23,7 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import TabScreen from "./screens/tabs/Tabs";
-import PrivateRoute from "./components/private-route/PrivateRoute";
+import PrivateRoute from "./components/shared/private-route/PrivateRoute";
 import LoginScreen from "./screens/login/Login";
 import { AppRoutes } from "./consts/routes";
 import TermsAndConditionsScreen from "./screens/terms-and-conditions/TermsAndConditions";

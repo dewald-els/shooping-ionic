@@ -182,7 +182,7 @@ const useAppStore = create<AppState>()(
 
         orderHistory: [],
         setOrderHistory: (orders: Order[]) => {
-          set(() => ({ orders }));
+          set(() => ({ orderHistory: orders }));
         },
       }),
       {

@@ -1,5 +1,5 @@
 import { IonItem, IonLabel, IonThumbnail } from "@ionic/react";
-import { Product } from "../../models/product";
+import { Product } from "../../../models/product";
 
 type ProductListItemProps = {
   product: Product;

@@ -1,35 +1,39 @@
 .justify-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .justify-center {
-    justify-content: center;
+  justify-content: center;
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 .flex-col {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .items-center {
-    align-items: center;
+  align-items: center;
 }
 
 .gap-1 {
-    gap: 0.25rem;
+  gap: 0.25rem;
 }
 .gap-2 {
-    gap: 0.5rem;
+  gap: 0.5rem;
 }
 
 .font-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .text-lg {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
+}
+
+.text-align-right {
+  text-align: right;
 }

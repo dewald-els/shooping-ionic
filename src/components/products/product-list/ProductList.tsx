@@ -1,7 +1,7 @@
 import { IonIcon, IonItem, IonLabel, IonList, useIonModal } from "@ionic/react";
 import { flowerOutline, sparklesOutline, waterOutline } from "ionicons/icons";
-import { Product } from "../../models/product";
-import groupProductsByCategory from "../../utils/groupProductsByCategory";
+import { Product } from "../../../models/product";
+import groupProductsByCategory from "../../../utils/groupProductsByCategory";
 import ProductListItem from "./ProductListItem";
 
 type ProductListProps = {

@@ -15,14 +15,13 @@ import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
 import OrderHistoryList from "../../components/order-history/OrderHistoryList";
 import ProfileSummary from "../../components/profile/ProfileSummary";
-import useAppStore from "../../store/store";
+import useOrderHistory from "../../hooks/useOrderHistory";
 
 const YouTabScreen: React.FC = () => {
   const router = useIonRouter();
   const { session } = useAuth();
-
   const { profile, error } = useProfile(session?.user.id);
-
+  const { orders, error: ordersError } = useOrderHistory(profile?.id);
   const [logoutError, setLogoutError] = useState<string | undefined>();
 
   const handleLogoutClick = async () => {
@@ -44,7 +43,7 @@ const YouTabScreen: React.FC = () => {
       </IonHeader>
       <IonContent>
         <ProfileSummary profile={profile} user={session?.user} />
-        <OrderHistoryList orders={[]} />
+        <OrderHistoryList orders={orders} />
 
         <div className="flex justify-center ion-padding">
           <IonButton color="danger" fill="clear" id="prompt-logout">

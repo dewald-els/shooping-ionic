@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import formatCurrency from "../../utils/formatCurrency";
-import QuantityButtons from "../quantity-buttons/QuantityButtons";
+import QuantityButtons from "../shared/quantity-buttons/QuantityButtons";
 import useAppStore from "../../store/store";
 
 const CartOderItems = () => {

@@ -9,7 +9,7 @@ import {
   useIonModal,
 } from "@ionic/react";
 
-import ProductList from "../../components/product-list/ProductList";
+import ProductList from "../../components/products/product-list/ProductList";
 import useProducts from "../../hooks/useProducts";
 import { useRef, useState } from "react";
 import { Product } from "../../models/product";

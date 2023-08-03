@@ -25,7 +25,7 @@ import ProductOptionsLoader from "./ProductOptionsLoader";
 import { basketOutline } from "ionicons/icons";
 import ProductOptionsModalTitle from "./ProductOptionsModalTitle";
 import ProductOptionsModalImage from "./ProductOptionsModalImage";
-import QuantityButtons from "../../components/quantity-buttons/QuantityButtons";
+import QuantityButtons from "../../components/shared/quantity-buttons/QuantityButtons";
 
 type ProductOptionsModalProps = {
   onDismiss: () => void;
