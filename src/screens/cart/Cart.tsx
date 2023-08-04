@@ -16,7 +16,6 @@ import CartClearAllButton from "../../components/cart/CartClearAllButton";
 import CartConfirmOrderButton from "../../components/cart/CartConfirmOrderButton";
 import CartOrderItems from "../../components/cart/CartOrderItems";
 import CartOrderEmpty from "../../components/cart/CartOrderEmpty";
-import { selectProductOptionStock } from "../../services/product-options";
 import { Order, OrderStatus } from "../../models/order";
 import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
@@ -40,6 +39,8 @@ const CartScreen: React.FC = () => {
   const setOrder = useAppStore((state) => state.setOrder);
   const clearCart = useAppStore((state) => state.clearCart);
   const clearOrder = useAppStore((state) => state.clearOrder);
+  const addOrderHistory = useAppStore((state) => state.addOrderHistory);
+  const order = useAppStore((state) => state.order);
   const { session } = useAuth();
   const { profile } = useProfile(session?.user.id);
   const productOptions: CartProductOption[] = [];
@@ -50,6 +51,7 @@ const CartScreen: React.FC = () => {
 
   useEffect(() => {
     if (completedOrder) {
+      addOrderHistory(order!);
       clearCart();
       clearOrder();
       router.push(

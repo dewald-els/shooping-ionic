@@ -37,6 +37,7 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
 
   const { session } = useAuth();
   const order = useAppStore((state) => state.order);
+  const setOrder = useAppStore((state) => state.setOrder);
   const { profile } = useProfile(session?.user.id);
   const [acceptCorrectInformation, setAcceptCorrectInformation] =
     useState<boolean>(false);
@@ -72,6 +73,11 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
     if (missingStockItems.length > 0) {
     } else {
       const { data, error } = await insertOrder(order!);
+
+      if (!error && data) {
+        setOrder(data);
+      }
+
       setOrderCompleted(!error);
     }
   };

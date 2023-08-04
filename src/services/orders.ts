@@ -21,7 +21,8 @@ export const insertOrder = async (
 ): Promise<SupabaseResponse<Order>> => {
   const { data, error } = await supabase
     .from(SupabaseTable.orders)
-    .insert(order);
+    .insert(order)
+    .select();
   return {
     data: data?.[0] as unknown as Order,
     error: error?.hint ?? null,

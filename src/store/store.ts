@@ -34,6 +34,7 @@ interface AppState {
   removeProductOptionFromCart: (productOptionId: number) => void;
 
   orderHistory: Order[];
+  addOrderHistory: (order: Order) => void;
   setOrderHistory: (orders: Order[]) => void;
 
   order: Order | null;
@@ -181,6 +182,12 @@ const useAppStore = create<AppState>()(
         },
 
         orderHistory: [],
+        addOrderHistory: (order: Order) => {
+          const orderHistory = get().orderHistory;
+          set(() => ({
+            orderHistory: [order, ...orderHistory],
+          }));
+        },
         setOrderHistory: (orders: Order[]) => {
           set(() => ({ orderHistory: orders }));
         },

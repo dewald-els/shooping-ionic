@@ -15,7 +15,7 @@ import { format } from "date-fns";
 import OrderStatusToColorMap from "../../utils/orderStatusToColorMap";
 
 type OrderHistoryListProps = {
-  orders: any[];
+  orders: Order[];
 };
 
 const ORDER_DISPLAY_LIMIT = 3;
