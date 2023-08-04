@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.dewaldels.everythingEdible;
 
 import com.getcapacitor.BridgeActivity;
 
