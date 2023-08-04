@@ -38,6 +38,8 @@ const CartScreen: React.FC = () => {
   });
   const cart = useAppStore((state) => state.cart);
   const setOrder = useAppStore((state) => state.setOrder);
+  const clearCart = useAppStore((state) => state.clearCart);
+  const clearOrder = useAppStore((state) => state.clearOrder);
   const { session } = useAuth();
   const { profile } = useProfile(session?.user.id);
   const productOptions: CartProductOption[] = [];
@@ -48,6 +50,8 @@ const CartScreen: React.FC = () => {
 
   useEffect(() => {
     if (completedOrder) {
+      clearCart();
+      clearOrder();
       router.push(
         AppRoutes.Tabs + "/" + AppRoutes.YouTabScreen,
         "root",
