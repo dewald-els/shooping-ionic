@@ -75,24 +75,28 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
 
     if (missingStockItems.length > 0) {
     } else {
-      const { data, error } = await insertOrder(order!);
+      const { data: updatedOrder, error: orderError } = await insertOrder(
+        order!
+      );
 
-      if (!error && data) {
-        setOrder(data);
+      if (!orderError && updatedOrder) {
+        setOrder(updatedOrder);
+
+        const updates = productOptionsWithAvailableStock.map((option) => {
+          return updateProductOptionById({
+            id: option.id,
+            stock: option.availableStock! - option.quantity,
+          });
+        });
+
+        const results = await Promise.allSettled(updates);
+
+        const hasStockUpdateError = results.some(
+          (result) => result.status === "rejected"
+        );
       }
 
-      const updates = productOptionsWithAvailableStock.map((option) => {
-        return updateProductOptionById({
-          id: option.id,
-          stock: option.availableStock! - option.quantity,
-        });
-      });
-
-      const results = await Promise.allSettled(updates);
-
-      console.log(results);
-
-      setOrderCompleted(!error);
+      setOrderCompleted(!orderError);
     }
   };
 

@@ -183,7 +183,7 @@ const useAppStore = create<AppState>()(
 
         orderHistory: [],
         addOrderHistory: (order: Order) => {
-          const orderHistory = get().orderHistory;
+          const orderHistory = get().orderHistory ?? [];
           set(() => ({
             orderHistory: [order, ...orderHistory],
           }));
