@@ -20,7 +20,10 @@ import {
 } from "ionicons/icons";
 import { useState } from "react";
 import useAppStore from "../../store/store";
-import { selectProductOptionStock } from "../../services/product-options";
+import {
+  selectProductOptionStock,
+  updateProductOptionById,
+} from "../../services/product-options";
 import { insertOrder } from "../../services/orders";
 import formatCurrency from "../../utils/formatCurrency";
 import CartConfirmOrderSuccess from "./CartConfirmOrderSuccess";
@@ -77,6 +80,17 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
       if (!error && data) {
         setOrder(data);
       }
+
+      const updates = productOptionsWithAvailableStock.map((option) => {
+        return updateProductOptionById({
+          id: option.id,
+          stock: option.availableStock! - option.quantity,
+        });
+      });
+
+      const results = await Promise.allSettled(updates);
+
+      console.log(results);
 
       setOrderCompleted(!error);
     }

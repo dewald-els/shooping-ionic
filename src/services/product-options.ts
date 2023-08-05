@@ -30,7 +30,7 @@ export const selectProductOptionStock = async (productOptionIds: number[]) => {
 };
 
 export const updateProductOptionById = async (
-  productOption: ProductOption
+  productOption: Partial<ProductOption>
 ): Promise<SupabaseResponse<ProductOption>> => {
   const { id, ...option } = productOption;
 
@@ -39,12 +39,10 @@ export const updateProductOptionById = async (
     .update({
       ...option,
     })
-    .eq("id", id)
-    .select()
-    .single();
+    .eq("id", id);
 
   return {
-    data: data as ProductOption,
+    data: data,
     error: error ? error.message : null,
   };
 };
