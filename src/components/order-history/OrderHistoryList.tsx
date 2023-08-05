@@ -13,12 +13,13 @@ import formatCurrency from "../../utils/formatCurrency";
 import { Order } from "../../models/order";
 import { format } from "date-fns";
 import OrderStatusToColorMap from "../../utils/orderStatusToColorMap";
+import OrderHistoryListItem from "./OrderHistoryListItem";
 
 type OrderHistoryListProps = {
   orders: Order[];
 };
 
-const ORDER_DISPLAY_LIMIT = 3;
+const ORDER_DISPLAY_LIMIT = 5;
 
 const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
   const { orders = [] } = props;
@@ -38,29 +39,18 @@ const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
         )}
 
         {orders.slice(0, ORDER_DISPLAY_LIMIT).map((order: Order) => {
-          const orderTotalCurrency = formatCurrency(order.total);
-          const orderDate = format(new Date(order.created_at!), "dd-MM-yyyy");
-          const orderStatusColor = OrderStatusToColorMap[order.status];
           return (
-            <IonItem
+            <OrderHistoryListItem
               key={order.id}
-              button
-              detail={true}
-              onClick={() => {
-                router.push("/tabs/you/order-history/1234", "forward", "push");
+              order={order}
+              onOrderClick={(order) => {
+                router.push(
+                  `/tabs/you/order-history/${order.id}`,
+                  "forward",
+                  "push"
+                );
               }}
-            >
-              <IonLabel>
-                <h2>Order #{order.id}</h2>
-                <p>{orderDate}</p>
-              </IonLabel>
-              <IonLabel slot="end" className="text-align-right">
-                <IonText color="medium">
-                  <p>{orderTotalCurrency}</p>
-                </IonText>
-                <IonBadge color={orderStatusColor}>{order.status}</IonBadge>
-              </IonLabel>
-            </IonItem>
+            />
           );
         })}
       </IonList>

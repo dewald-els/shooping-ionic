@@ -36,6 +36,7 @@ interface AppState {
   orderHistory: Order[];
   addOrderHistory: (order: Order) => void;
   setOrderHistory: (orders: Order[]) => void;
+  updateOrderHistoryItem: (order: Order) => void;
 
   order: Order | null;
   clearOrder: () => void;
@@ -190,6 +191,18 @@ const useAppStore = create<AppState>()(
         },
         setOrderHistory: (orders: Order[]) => {
           set(() => ({ orderHistory: orders }));
+        },
+        updateOrderHistoryItem: (updatedOrder: Order) => {
+          const orders = get().orderHistory ?? [];
+
+          set(() => ({
+            orderHistory: orders.map((order) => {
+              if (order.id === updatedOrder.id) {
+                return updatedOrder;
+              }
+              return order;
+            }),
+          }));
         },
       }),
       {

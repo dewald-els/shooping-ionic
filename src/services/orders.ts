@@ -16,6 +16,18 @@ export const selectAllOrdersByProfileId = async (
   };
 };
 
+export const selectOrderById = async (orderId: number) => {
+  const { data, error } = await supabase
+    .from(SupabaseTable.orders)
+    .select()
+    .eq("id", orderId)
+    .single();
+  return {
+    data: data as unknown as Order,
+    error: error?.hint ?? null,
+  };
+};
+
 export const insertOrder = async (
   order: Order
 ): Promise<SupabaseResponse<Order>> => {

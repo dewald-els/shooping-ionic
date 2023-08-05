@@ -19,6 +19,7 @@ import useProductSubscription from "../../hooks/useProductSubscription";
 import useProductOptionSubscription from "../../hooks/useProductOptionSubscription";
 import { AppRoutes } from "../../consts/routes";
 import TermsAndConditionsScreen from "../terms-and-conditions/TermsAndConditions";
+import OrderHistoryDetail from "./OrderHistoryDetail";
 
 const TabScreen: React.FC = () => {
   useProductSubscription();
@@ -35,7 +36,7 @@ const TabScreen: React.FC = () => {
         <Route exact path="/tabs/you" component={YouTabScreen} />
         <Route
           path="/tabs/you/order-history/:orderId"
-          component={TermsAndConditionsScreen}
+          component={OrderHistoryDetail}
         />
         <Route path="/tabs/us" component={UsTabScreen} />
         <Route

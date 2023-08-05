@@ -5,6 +5,7 @@ const OrderStatusToColorMap: Record<OrderStatus, string> = {
   [OrderStatus.Cancelled]: "danger",
   [OrderStatus.Completed]: "success",
   [OrderStatus.Created]: "medium",
+  [OrderStatus.Unknown]: "medium",
 };
 
 export default OrderStatusToColorMap;
