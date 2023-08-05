@@ -26,6 +26,11 @@ import { OrderStatus } from "../../models/order";
 import CancelOrderButton from "../../components/order-history-detail/CancelOrderButton";
 import { updateOrderStatus } from "../../services/orders";
 import useAppStore from "../../store/store";
+import { useState } from "react";
+import {
+  selectProductOptionStock,
+  updateProductOptionStock,
+} from "../../services/product-options";
 
 interface OrderHistoryDetailProps
   extends RouteComponentProps<{
@@ -36,6 +41,7 @@ const OrderHistoryDetail: React.FC<OrderHistoryDetailProps> = ({ match }) => {
   const router = useIonRouter();
   const { params } = match;
   const { orderId } = params;
+  const [errors, setErrors] = useState<string[]>([]);
 
   const updateOrderHistoryItem = useAppStore(
     (state) => state.updateOrderHistoryItem
@@ -53,19 +59,52 @@ const OrderHistoryDetail: React.FC<OrderHistoryDetailProps> = ({ match }) => {
   const handleOrderCancelConfirm = async () => {
     if (!order) return;
 
+    // Cancel the order.
     const { data, error } = await updateOrderStatus(
       order.id!,
       OrderStatus.Cancelled
     );
 
-    if (!error) {
-      updateOrderHistoryItem({
-        ...order,
-        status: OrderStatus.Cancelled,
-      });
-
-      router.goBack();
+    // If order couldnt cancel, stop and dont update the stock.
+    if (error) {
+      setErrors([...errors, error]);
+      return;
     }
+
+    // Find the current stock values
+    const productOptionIds = order.product_options.map((option) => option.id);
+    const { data: currentStock, error: currentStockError } =
+      await selectProductOptionStock(productOptionIds);
+
+    // Map the order stock values to have stock of current stock + order quantity.
+    const productOptionsWithCurrentStock = order.product_options.map(
+      (option) => {
+        const currentOption = currentStock.find((o) => option.id === o.id);
+        return {
+          ...option,
+          stock: (currentOption?.stock ?? 0) + option.quantity,
+        };
+      }
+    );
+
+    // Execute update for each product option
+    const results = await updateProductOptionStock(
+      productOptionsWithCurrentStock.map((option) => ({
+        ...option,
+        stock: option.stock,
+      }))
+    );
+
+    const hasStockUpdateError = results.some(
+      (result) => result.status === "rejected"
+    );
+
+    updateOrderHistoryItem({
+      ...order,
+      status: OrderStatus.Cancelled,
+    });
+
+    router.goBack();
   };
 
   return (

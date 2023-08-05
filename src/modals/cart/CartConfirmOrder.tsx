@@ -23,6 +23,7 @@ import useAppStore from "../../store/store";
 import {
   selectProductOptionStock,
   updateProductOptionById,
+  updateProductOptionStock,
 } from "../../services/product-options";
 import { insertOrder } from "../../services/orders";
 import formatCurrency from "../../utils/formatCurrency";
@@ -82,14 +83,12 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
       if (!orderError && updatedOrder) {
         setOrder(updatedOrder);
 
-        const updates = productOptionsWithAvailableStock.map((option) => {
-          return updateProductOptionById({
-            id: option.id,
-            stock: option.availableStock! - option.quantity,
-          });
-        });
-
-        const results = await Promise.allSettled(updates);
+        const results = await updateProductOptionStock(
+          productOptionsWithAvailableStock.map((option) => ({
+            ...option,
+            stock: (option.availableStock ?? 0) - option.quantity,
+          }))
+        );
 
         const hasStockUpdateError = results.some(
           (result) => result.status === "rejected"

@@ -10,7 +10,7 @@ if (
   Capacitor.getPlatform() === "android"
 ) {
   StatusBar.setBackgroundColor({
-    color: "#3880ff",
+    color: "#48487f",
   });
 }
 

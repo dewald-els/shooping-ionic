@@ -1,4 +1,5 @@
 import { SupabaseTable } from "../consts/supabase-table";
+import { CartProductOption } from "../models/cart";
 import { Product } from "../models/product";
 import { ProductOption } from "../models/product-option";
 import { SupabaseResponse } from "../models/supabase-response";
@@ -27,6 +28,21 @@ export const selectProductOptionStock = async (productOptionIds: number[]) => {
     data: data as { id: number; stock: number }[],
     error,
   };
+};
+
+export const updateProductOptionStock = async (
+  productOptions: CartProductOption[]
+) => {
+  const updates = productOptions.map((option) => {
+    return updateProductOptionById({
+      id: option.id,
+      stock: option.stock,
+    });
+  });
+
+  const results = await Promise.allSettled(updates);
+
+  return results;
 };
 
 export const updateProductOptionById = async (

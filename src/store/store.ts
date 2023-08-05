@@ -59,7 +59,7 @@ const useAppStore = create<AppState>()(
           set(() => ({ products }));
         },
         updateProduct: (updatedProduct: Product) => {
-          const currentProducts = get().products;
+          const currentProducts = get().products ?? [];
           const updatedProducts = currentProducts.map((product) => {
             if (product.id === updatedProduct.id) {
               return updatedProduct;
@@ -95,7 +95,7 @@ const useAppStore = create<AppState>()(
         setProductOptions: (productOptions: ProductOption[]) =>
           set(() => ({ productOptions })),
         updateProductOptions: (updatedProductOption: ProductOption) => {
-          const currentProductOptions = get().productOptions;
+          const currentProductOptions = get().productOptions ?? [];
           const updatedProductOptions = currentProductOptions.map(
             (productOption) => {
               if (productOption.id === updatedProductOption.id) {
