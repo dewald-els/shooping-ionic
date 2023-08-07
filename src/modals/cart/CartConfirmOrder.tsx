@@ -1,4 +1,5 @@
 import {
+  BackButtonEvent,
   InputChangeEventDetail,
   IonButton,
   IonButtons,
@@ -22,7 +23,7 @@ import {
   locationOutline,
   personOutline,
 } from "ionicons/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAppStore from "../../store/store";
 import {
   selectProductOptionStock,
