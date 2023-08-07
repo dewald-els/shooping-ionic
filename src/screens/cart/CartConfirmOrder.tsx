@@ -1,5 +1,4 @@
 import {
-  BackButtonEvent,
   InputChangeEventDetail,
   IonButton,
   IonButtons,
@@ -7,7 +6,6 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonInput,
   IonItem,
   IonLabel,
   IonPage,
@@ -16,34 +14,26 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
+import {
+  personOutline,
+  locationOutline,
+  checkmarkCircleOutline,
+} from "ionicons/icons";
+import { useState } from "react";
+import CartConfirmOrderSuccess from "../../components/cart/CartConfirmOrderSuccess";
 import { useAuth } from "../../context/AuthContext";
 import useProfile from "../../hooks/useProfile";
-import {
-  checkmarkCircleOutline,
-  locationOutline,
-  personOutline,
-} from "ionicons/icons";
-import { useEffect, useState } from "react";
-import useAppStore from "../../store/store";
+import { insertOrder } from "../../services/orders";
 import {
   selectProductOptionStock,
-  updateProductOptionById,
   updateProductOptionStock,
 } from "../../services/product-options";
-import { insertOrder } from "../../services/orders";
+import useAppStore from "../../store/store";
 import formatCurrency from "../../utils/formatCurrency";
-import CartConfirmOrderSuccess from "./CartConfirmOrderSuccess";
-import { AppRoutes } from "../../consts/routes";
 
-type CartConfirmOrderModalProps = {
-  onDismiss: (data?: boolean, role?: string) => void;
-};
-
-const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
-  const { onDismiss } = props;
-
+const CartConfirmOrderScreen: React.FC = () => {
   const [orderCompleted, setOrderCompleted] = useState(false);
-
+  const router = useIonRouter();
   const { session } = useAuth();
   const order = useAppStore((state) => state.order);
   const setOrder = useAppStore((state) => state.setOrder);
@@ -104,8 +94,10 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
     }
   };
 
-  const handleViewOrderClick = () => {
-    onDismiss(orderCompleted, orderCompleted ? "confirm" : "cancel");
+  const handleViewOrderClick = () => {};
+
+  const handleCancelClick = () => {
+    router.goBack();
   };
 
   const orderTotalCurrency = formatCurrency(order ? order.total : 0);
@@ -116,13 +108,7 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
         <IonToolbar color="primary">
           <IonTitle>Delivery information</IonTitle>
           <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                onDismiss(false, "cancel");
-              }}
-            >
-              Cancel
-            </IonButton>
+            <IonButton onClick={handleCancelClick}>Cancel</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -204,4 +190,4 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
   );
 };
 
-export default CartConfirmOrderModal;
+export default CartConfirmOrderScreen;

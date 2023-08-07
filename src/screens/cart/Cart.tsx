@@ -6,7 +6,6 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  useIonModal,
   useIonRouter,
 } from "@ionic/react";
 import useAppStore from "../../store/store";
@@ -19,22 +18,11 @@ import CartOrderEmpty from "../../components/cart/CartOrderEmpty";
 import { Order, OrderStatus } from "../../models/order";
 import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
-import CartConfirmOrderModal from "../../modals/cart/CartConfirmOrder";
 import { useEffect, useRef, useState } from "react";
 import { AppRoutes } from "../../consts/routes";
 
 const CartScreen: React.FC = () => {
-  const pageRef = useRef();
-
-  const [completedOrder, setCompletedOrder] = useState(false);
-
   const router = useIonRouter();
-  const [presentModal, dismissModal] = useIonModal(CartConfirmOrderModal, {
-    onDismiss: (success: boolean, role: string) => {
-      setCompletedOrder(success && role === "confirm");
-      dismissModal();
-    },
-  });
   const cart = useAppStore((state) => state.cart);
   const setOrder = useAppStore((state) => state.setOrder);
   const clearCart = useAppStore((state) => state.clearCart);
@@ -49,24 +37,11 @@ const CartScreen: React.FC = () => {
     productOptions.push(...cart.product_options);
   }
 
-  useEffect(() => {
-    if (completedOrder) {
-      addOrderHistory(order!);
-      clearCart();
-      clearOrder();
-      router.push(
-        AppRoutes.Tabs + "/" + AppRoutes.YouTabScreen,
-        "root",
-        "replace"
-      );
-    }
-  }, [completedOrder]);
-
   const handleGoShoppingClick = () => {
     router.goBack();
   };
 
-  const handleCartConfirmed = async () => {
+  const handleCartConfirmed = () => {
     const order: Order = {
       product_options: productOptions,
       total: cartTotal,
@@ -74,9 +49,7 @@ const CartScreen: React.FC = () => {
       status: OrderStatus.Created,
     };
     setOrder(order);
-    presentModal({
-      presentingElement: pageRef.current,
-    });
+    router.push("/cart/confirm", "forward", "push");
   };
 
   const cartTotal = productOptions.reduce(
@@ -87,7 +60,7 @@ const CartScreen: React.FC = () => {
   const cartTotalCurrency = formatCurrency(cartTotal);
 
   return (
-    <IonPage ref={pageRef}>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">

@@ -11,6 +11,7 @@ enum AppRouteName {
   TermsAndConditions = "TermsAndConditions",
   TermsAndConditionsTabScreen = "TermsAndConditionsTabScreen",
   CartScreen = "CartScreen",
+  CartConfirmScreen = "CartConfirmScreen",
 }
 export const AppRoutes: Record<AppRouteName, string> = {
   Start: "/",
@@ -25,4 +26,5 @@ export const AppRoutes: Record<AppRouteName, string> = {
   TermsAndConditions: "/terms-and-conditions",
   TermsAndConditionsTabScreen: "/tabs/terms-and-conditions",
   CartScreen: "/cart",
+  CartConfirmScreen: "/cart/confirm",
 };
