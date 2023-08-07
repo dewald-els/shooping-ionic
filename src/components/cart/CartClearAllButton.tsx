@@ -26,8 +26,9 @@ const CartClearAllButton: React.FC = () => {
 
   return (
     <IonButtons slot="end">
-      <IonButton slot="start" onClick={handleClearCartClick}>
-        <IonIcon slot="icon-only" icon={trashBinOutline} />
+      <IonButton onClick={handleClearCartClick}>
+        <IonIcon slot="start" icon={trashBinOutline} />
+        Clear
       </IonButton>
     </IonButtons>
   );

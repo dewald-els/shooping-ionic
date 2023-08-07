@@ -24,7 +24,7 @@ const CartOderItems = () => {
   const handleRemoveItemFromCart = (productOptionId: number) => {
     const option = productOptions.find((o) => o.id === productOptionId);
     presentAlert({
-      header: "Remove item from cart?",
+      header: "Remove from cart?",
       message: `Remove ${option?.name} from your cart?`,
       buttons: [
         "Cancel",

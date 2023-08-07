@@ -1,12 +1,16 @@
 import {
+  InputChangeEventDetail,
   IonButton,
+  IonButtons,
   IonCheckbox,
   IonContent,
   IonHeader,
   IonIcon,
+  IonInput,
   IonItem,
   IonLabel,
   IonPage,
+  IonTextarea,
   IonTitle,
   IonToolbar,
   useIonRouter,
@@ -110,6 +114,15 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle>Delivery information</IonTitle>
+          <IonButtons slot="end">
+            <IonButton
+              onClick={() => {
+                onDismiss(false, "cancel");
+              }}
+            >
+              Cancel
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -141,6 +154,24 @@ const CartConfirmOrderModal: React.FC<CartConfirmOrderModalProps> = (props) => {
             </IonItem>
             <IonItem>{profile.city}</IonItem>
             <IonItem>{profile.postCode}</IonItem>
+
+            <div className="ion-padding">
+              <div className="ion-padding-bottom">
+                <IonTextarea
+                  mode="md"
+                  id="deliveryInstructions"
+                  name="deliveryInstructions"
+                  label="Delivery instructions (Optional)"
+                  fill="outline"
+                  labelPlacement="floating"
+                  placeholder="Any special instructions?"
+                  rows={3}
+                  onIonInput={(
+                    event: CustomEvent<InputChangeEventDetail>
+                  ) => {}}
+                />
+              </div>
+            </div>
 
             <IonItem>
               <IonCheckbox
