@@ -8,6 +8,7 @@ import {
   IonHeader,
   IonImg,
   IonItem,
+  IonList,
   IonPage,
   IonRadio,
   IonRadioGroup,
@@ -104,32 +105,34 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
           <>
             <ProductOptionsModalImage product={selectedProduct} />
             <ProductOptionsModalTitle product={selectedProduct} />
-            <IonRadioGroup onIonChange={handleOptionChange}>
-              {productOptions.map((option: ProductOption) => {
-                const optionDisplayPrice = formatCurrency(option.price);
-                return (
-                  <IonItem key={option.id}>
-                    <IonRadio
-                      mode="md"
-                      labelPlacement="end"
-                      justify="start"
-                      value={option.id}
-                      disabled={option.stock <= 0}
-                    >
-                      {option.name}
-                    </IonRadio>
-                    {option.stock > 0 && (
-                      <span slot="end">{optionDisplayPrice}</span>
-                    )}
-                    {option.stock <= 0 && (
-                      <IonText color="danger" slot="end">
-                        <span>Out of stock</span>
-                      </IonText>
-                    )}
-                  </IonItem>
-                );
-              })}
-            </IonRadioGroup>
+            <IonList>
+              <IonRadioGroup onIonChange={handleOptionChange}>
+                {productOptions.map((option: ProductOption) => {
+                  const optionDisplayPrice = formatCurrency(option.price);
+                  return (
+                    <IonItem key={option.id}>
+                      <IonRadio
+                        mode="md"
+                        labelPlacement="end"
+                        justify="start"
+                        value={option.id}
+                        disabled={option.stock <= 0}
+                      >
+                        {option.name}
+                      </IonRadio>
+                      {option.stock > 0 && (
+                        <span slot="end">{optionDisplayPrice}</span>
+                      )}
+                      {option.stock <= 0 && (
+                        <IonText color="danger" slot="end">
+                          <span>Out of stock</span>
+                        </IonText>
+                      )}
+                    </IonItem>
+                  );
+                })}
+              </IonRadioGroup>
+            </IonList>
           </>
         )}
       </IonContent>

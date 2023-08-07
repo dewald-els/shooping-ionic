@@ -1,8 +1,8 @@
 import { IonIcon, IonItem, IonLabel, IonList, useIonModal } from "@ionic/react";
-import { flowerOutline, sparklesOutline, waterOutline } from "ionicons/icons";
 import { Product } from "../../../models/product";
 import groupProductsByCategory from "../../../utils/groupProductsByCategory";
 import ProductListItem from "./ProductListItem";
+import { categoryIcon } from "../../../utils/categoryIcon";
 
 type ProductListProps = {
   products: Product[];
@@ -19,7 +19,12 @@ const ProductList: React.FC<ProductListProps> = (props) => {
       return (
         <IonList key={category.id}>
           <IonItem lines="none">
-            <IonLabel>
+            <IonIcon
+              slot="start"
+              icon={categoryIcon(category.icon)}
+              color={category.color}
+            />
+            <IonLabel color={category.color}>
               <h1>{category.name}</h1>
             </IonLabel>
           </IonItem>

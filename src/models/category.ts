@@ -5,4 +5,6 @@ export interface Category {
   show: boolean;
   display_order: string;
   created_at: string;
+  icon: string;
+  color: string;
 }
