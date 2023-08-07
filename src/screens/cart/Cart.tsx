@@ -66,13 +66,6 @@ const CartScreen: React.FC = () => {
     router.goBack();
   };
 
-  const cartTotal = productOptions.reduce(
-    (total, option) => total + option.unit_price * option.quantity,
-    0
-  );
-
-  const cartTotalCurrency = formatCurrency(cartTotal);
-
   const handleCartConfirmed = async () => {
     const order: Order = {
       product_options: productOptions,
@@ -85,6 +78,13 @@ const CartScreen: React.FC = () => {
       presentingElement: pageRef.current,
     });
   };
+
+  const cartTotal = productOptions.reduce(
+    (total, option) => total + option.unit_price * option.quantity,
+    0
+  );
+
+  const cartTotalCurrency = formatCurrency(cartTotal);
 
   return (
     <IonPage ref={pageRef}>
