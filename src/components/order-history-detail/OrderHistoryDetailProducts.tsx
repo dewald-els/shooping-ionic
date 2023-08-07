@@ -1,4 +1,10 @@
-import { IonList, IonItem, IonLabel, IonText } from "@ionic/react";
+import {
+  IonList,
+  IonItem,
+  IonLabel,
+  IonText,
+  IonItemDivider,
+} from "@ionic/react";
 import { CartProductOption } from "../../models/cart";
 import formatCurrency from "../../utils/formatCurrency";
 
@@ -12,6 +18,7 @@ const OrderHistoryDetailProducts: React.FC<OrderHistoryDetailProductsProps> = (
   return (
     <>
       <IonList>
+        <IonItemDivider>Products</IonItemDivider>
         {products.map((option) => {
           const priceCurrency = formatCurrency(
             option.unit_price * option.quantity

@@ -28,10 +28,8 @@ const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
     <>
       <IonList>
         <IonItem>
-          <IonIcon slot="start" icon={receiptOutline} />
-          <IonLabel>
-            <h1>Order history</h1>
-          </IonLabel>
+          <IonIcon slot="start" icon={receiptOutline} color="primary" />
+          <IonLabel>Order history</IonLabel>
         </IonItem>
 
         {orders.length === 0 && (

@@ -31,6 +31,11 @@ import {
   selectProductOptionStock,
   updateProductOptionStock,
 } from "../../services/product-options";
+import {
+  calendarClearOutline,
+  cashOutline,
+  receiptOutline,
+} from "ionicons/icons";
 
 interface OrderHistoryDetailProps
   extends RouteComponentProps<{
@@ -111,7 +116,7 @@ const OrderHistoryDetail: React.FC<OrderHistoryDetailProps> = ({ match }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Order Detail</IonTitle>
+          <IonTitle>Order #{order?.id}</IonTitle>
           <IonButtons slot="start">
             <IonBackButton defaultHref={AppRoutes.YouTabScreen} />
           </IonButtons>
@@ -119,18 +124,34 @@ const OrderHistoryDetail: React.FC<OrderHistoryDetailProps> = ({ match }) => {
       </IonHeader>
       <IonContent>
         <IonItem>
+          <IonIcon slot="start" icon={receiptOutline} />
           <IonLabel>
             <h2>Order #{order?.id}</h2>
-            <h3>Order date: {dateFormatted}</h3>
-            <IonBadge color={statusColor}>{order?.status}</IonBadge>
           </IonLabel>
-          <IonLabel slot="end">
-            <p>Total:</p>
-            <h3>{orderTotalCurrency}</h3>
-          </IonLabel>
+        </IonItem>
+        <IonItem>
+          <IonIcon slot="start" icon={calendarClearOutline} />
+          <IonLabel>Order date:</IonLabel>
+          <IonLabel slot="end">{dateFormatted}</IonLabel>
+        </IonItem>
+        <IonItem>
+          Status:{" "}
+          <IonBadge slot="end" color={statusColor}>
+            {order?.status}
+          </IonBadge>
         </IonItem>
 
         <OrderHistoryDetailProducts products={products} />
+
+        <IonItem>
+          <IonIcon slot="start" icon={cashOutline} />
+          <IonLabel>
+            <IonText>Total:</IonText>
+          </IonLabel>
+          <IonLabel slot="end">
+            <h3>{orderTotalCurrency}</h3>
+          </IonLabel>
+        </IonItem>
 
         {order && order.status === OrderStatus.Created && (
           <CancelOrderButton onCancelConfirm={handleOrderCancelConfirm} />
