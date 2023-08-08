@@ -1,5 +1,6 @@
 import {
   InputChangeEventDetail,
+  IonBackButton,
   IonButton,
   IonButtons,
   IonCheckbox,
@@ -30,9 +31,9 @@ import {
 } from "../../services/product-options";
 import useAppStore from "../../store/store";
 import formatCurrency from "../../utils/formatCurrency";
+import { AppRoutes } from "../../consts/routes";
 
-const CartConfirmOrderScreen: React.FC = () => {
-  const [orderCompleted, setOrderCompleted] = useState(false);
+const CartConfirmScreen: React.FC = () => {
   const router = useIonRouter();
   const { session } = useAuth();
   const order = useAppStore((state) => state.order);
@@ -88,13 +89,16 @@ const CartConfirmOrderScreen: React.FC = () => {
         const hasStockUpdateError = results.some(
           (result) => result.status === "rejected"
         );
-      }
 
-      setOrderCompleted(!orderError);
+        if (hasStockUpdateError) {
+          console.error("Could not update stock", results);
+          return;
+        }
+
+        router.push(AppRoutes.CartConfirmSuccessScreen, "root", "replace");
+      }
     }
   };
-
-  const handleViewOrderClick = () => {};
 
   const handleCancelClick = () => {
     router.goBack();
@@ -106,17 +110,14 @@ const CartConfirmOrderScreen: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Delivery information</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={handleCancelClick}>Cancel</IonButton>
+          <IonButtons slot="start">
+            <IonBackButton />
           </IonButtons>
+          <IonTitle>Delivery information</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {orderCompleted && (
-          <CartConfirmOrderSuccess onViewOrderClick={handleViewOrderClick} />
-        )}
-        {!orderCompleted && profile && order && (
+        {profile && order && (
           <>
             <IonItem>
               <IonIcon slot="start" icon={personOutline} color="primary" />
@@ -190,4 +191,4 @@ const CartConfirmOrderScreen: React.FC = () => {
   );
 };
 
-export default CartConfirmOrderScreen;
+export default CartConfirmScreen;

@@ -28,7 +28,8 @@ import LoginScreen from "./screens/login/Login";
 import { AppRoutes } from "./consts/routes";
 import TermsAndConditionsScreen from "./screens/terms-and-conditions/TermsAndConditions";
 import CartScreen from "./screens/cart/Cart";
-import CartConfirmOrderScreen from "./screens/cart/CartConfirmOrder";
+import CartConfirmScreen from "./screens/cart/CartConfirm";
+import CartConfirmSuccessScreen from "./screens/cart/CartConfirmSuccess";
 
 setupIonicReact();
 
@@ -61,10 +62,19 @@ const App: React.FC = () => (
           )}
         />
         <Route
+          exact
           path={AppRoutes.CartConfirmScreen}
           render={() => (
             <PrivateRoute>
-              <CartConfirmOrderScreen />
+              <CartConfirmScreen />
+            </PrivateRoute>
+          )}
+        />
+        <Route
+          path={AppRoutes.CartConfirmSuccessScreen}
+          render={() => (
+            <PrivateRoute>
+              <CartConfirmSuccessScreen />
             </PrivateRoute>
           )}
         />
