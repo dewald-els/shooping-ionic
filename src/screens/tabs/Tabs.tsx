@@ -5,11 +5,15 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
+  useIonRouter,
 } from "@ionic/react";
 import {
   basketOutline,
   storefrontOutline,
   personOutline,
+  basket,
+  storefront,
+  person,
 } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import ProductsTabScreen from "./ProductsTab";
@@ -24,6 +28,19 @@ import OrderHistoryDetail from "./OrderHistoryDetail";
 const TabScreen: React.FC = () => {
   useProductSubscription();
   useProductOptionSubscription();
+
+  const { routeInfo } = useIonRouter();
+
+  const tabIcons = {
+    products:
+      routeInfo.pathname === "/tabs" || routeInfo.pathname.includes("products")
+        ? basket
+        : basketOutline,
+    you: routeInfo.pathname.includes("you") ? person : personOutline,
+    us: routeInfo.pathname.includes("us") ? storefront : storefrontOutline,
+  };
+
+  console.log("routeInfo", routeInfo.pathname);
 
   return (
     <IonTabs>
@@ -47,17 +64,17 @@ const TabScreen: React.FC = () => {
 
       <IonTabBar slot="bottom">
         <IonTabButton tab="products" href="/tabs/products">
-          <IonIcon icon={basketOutline} />
+          <IonIcon icon={tabIcons.products} />
           <IonLabel>Products</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="you" href="/tabs/you">
-          <IonIcon icon={personOutline} />
+          <IonIcon icon={tabIcons.you} />
           <IonLabel>You</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="us" href="/tabs/us">
-          <IonIcon icon={storefrontOutline} />
+          <IonIcon icon={tabIcons.us} />
           <IonLabel>Us</IonLabel>
         </IonTabButton>
       </IonTabBar>
