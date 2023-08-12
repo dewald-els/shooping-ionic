@@ -24,6 +24,7 @@ import { AppRoutes } from "../../consts/routes";
 import { supabase } from "../../services/supabase";
 import { useAuth } from "../../context/AuthContext";
 import { warningOutline } from "ionicons/icons";
+import AlertBox from "../../components/shared/alert-box/AlertBox";
 
 const LoginScreen: React.FC = () => {
   const router = useIonRouter();
@@ -101,14 +102,7 @@ const LoginScreen: React.FC = () => {
         </div>
 
         {error && (
-          <IonCard color="danger">
-            <IonCardContent>
-              <IonItem color="danger" lines="none">
-                <IonIcon icon={warningOutline} slot="start" />
-                <IonLabel>{error}</IonLabel>
-              </IonItem>
-            </IonCardContent>
-          </IonCard>
+          <AlertBox message={error} icon={warningOutline} color="danger" />
         )}
       </IonContent>
     </IonPage>

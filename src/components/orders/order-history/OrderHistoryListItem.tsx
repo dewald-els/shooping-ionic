@@ -1,8 +1,8 @@
 import { IonItem, IonLabel, IonText, IonBadge } from "@ionic/react";
-import { Order } from "../../models/order";
-import formatCurrency from "../../utils/formatCurrency";
+import { Order } from "../../../models/order";
+import formatCurrency from "../../../utils/formatCurrency";
 import { format } from "date-fns";
-import OrderStatusToColorMap from "../../utils/orderStatusToColorMap";
+import OrderStatusToColorMap from "../../../utils/orderStatusToColorMap";
 
 type OrderHistoryListItemProps = {
   order: Order;

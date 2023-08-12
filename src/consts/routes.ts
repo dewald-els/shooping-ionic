@@ -13,6 +13,7 @@ enum AppRouteName {
   CartScreen = "CartScreen",
   CartConfirmScreen = "CartConfirmScreen",
   CartConfirmSuccessScreen = "CartConfirmSuccessScreen",
+  OrderHistoryScreen = "OrderHistoryScreen",
 }
 export const AppRoutes: Record<AppRouteName, string> = {
   Start: "/",
@@ -29,4 +30,5 @@ export const AppRoutes: Record<AppRouteName, string> = {
   CartScreen: "/cart",
   CartConfirmScreen: "/cart/confirm",
   CartConfirmSuccessScreen: "/cart/confirm/success",
+  OrderHistoryScreen: "order-history",
 };

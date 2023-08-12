@@ -2,6 +2,7 @@ import {
   IonButton,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonList,
   IonPage,
@@ -11,6 +12,7 @@ import {
 } from "@ionic/react";
 import OpeningHours from "../../components/opening-hours/OpeningHours";
 import { AppRoutes } from "../../consts/routes";
+import { bookOutline } from "ionicons/icons";
 
 const UsTabScreen: React.FC = () => {
   const router = useIonRouter();
@@ -31,7 +33,7 @@ const UsTabScreen: React.FC = () => {
 
         <IonList>
           <IonItem button onClick={handleTermsClick} detail={true}>
-            Terms and conditions
+            <IonIcon slot="start" icon={bookOutline} /> Terms and conditions
           </IonItem>
         </IonList>
       </IonContent>

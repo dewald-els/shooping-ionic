@@ -13,7 +13,7 @@ import { AppRoutes } from "../../consts/routes";
 import { useState } from "react";
 import useProfile from "../../hooks/useProfile";
 import { useAuth } from "../../context/AuthContext";
-import OrderHistoryList from "../../components/order-history/OrderHistoryList";
+import OrderHistoryList from "../../components/orders/order-history/OrderHistoryList";
 import ProfileSummary from "../../components/profile/ProfileSummary";
 import useOrderHistory from "../../hooks/useOrderHistory";
 
@@ -34,6 +34,10 @@ const YouTabScreen: React.FC = () => {
     }
   };
 
+  const handleShowAllOrderHistoryClick = () => {
+    router.push(AppRoutes.YouTabScreen + "/" + AppRoutes.OrderHistoryScreen);
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -43,7 +47,10 @@ const YouTabScreen: React.FC = () => {
       </IonHeader>
       <IonContent>
         <ProfileSummary profile={profile} user={session?.user} />
-        <OrderHistoryList orders={orders} />
+        <OrderHistoryList
+          orders={orders}
+          onShowAllClick={handleShowAllOrderHistoryClick}
+        />
 
         <div className="flex justify-center ion-padding">
           <IonButton color="danger" fill="clear" id="prompt-logout">

@@ -16,26 +16,28 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { RouteComponentProps } from "react-router-dom";
-import useOrderHistoryDetail from "../../hooks/useOrderHistoryDetail";
-import { AppRoutes } from "../../consts/routes";
-import OrderHistoryDetailProducts from "../../components/order-history-detail/OrderHistoryDetailProducts";
-import formatCurrency from "../../utils/formatCurrency";
+import useOrderHistoryDetail from "../../../hooks/useOrderHistoryDetail";
+import { AppRoutes } from "../../../consts/routes";
+
+import formatCurrency from "../../../utils/formatCurrency";
 import { format } from "date-fns";
-import OrderStatusToColorMap from "../../utils/orderStatusToColorMap";
-import { OrderStatus } from "../../models/order";
-import CancelOrderButton from "../../components/order-history-detail/CancelOrderButton";
-import { updateOrderStatus } from "../../services/orders";
-import useAppStore from "../../store/store";
+import OrderStatusToColorMap from "../../../utils/orderStatusToColorMap";
+import { OrderStatus } from "../../../models/order";
+
+import { updateOrderStatus } from "../../../services/orders";
+import useAppStore from "../../../store/store";
 import { useState } from "react";
 import {
   selectProductOptionStock,
   updateProductOptionStock,
-} from "../../services/product-options";
+} from "../../../services/product-options";
 import {
   calendarClearOutline,
   cashOutline,
   receiptOutline,
 } from "ionicons/icons";
+import OrderHistoryDetailProducts from "../../../components/orders/order-history-detail/OrderHistoryDetailProducts";
+import CancelOrderButton from "../../../components/orders/order-history-detail/CancelOrderButton";
 
 interface OrderHistoryDetailProps
   extends RouteComponentProps<{

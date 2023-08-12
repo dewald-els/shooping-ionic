@@ -9,20 +9,23 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { receiptOutline } from "ionicons/icons";
-import formatCurrency from "../../utils/formatCurrency";
-import { Order } from "../../models/order";
-import { format } from "date-fns";
-import OrderStatusToColorMap from "../../utils/orderStatusToColorMap";
+import { Order } from "../../../models/order";
 import OrderHistoryListItem from "./OrderHistoryListItem";
 
 type OrderHistoryListProps = {
   orders: Order[];
+  orderHistoryLimit?: number;
+  onShowAllClick?: () => void;
 };
 
 const ORDER_DISPLAY_LIMIT = 5;
 
 const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
-  const { orders = [] } = props;
+  const {
+    orders = [],
+    onShowAllClick,
+    orderHistoryLimit = ORDER_DISPLAY_LIMIT,
+  } = props;
   const router = useIonRouter();
   return (
     <>
@@ -36,7 +39,7 @@ const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
           <IonItem>You haven't completed any orders</IonItem>
         )}
 
-        {orders.slice(0, ORDER_DISPLAY_LIMIT).map((order: Order) => {
+        {orders.slice(0, orderHistoryLimit).map((order: Order) => {
           return (
             <OrderHistoryListItem
               key={order.id}
@@ -52,9 +55,16 @@ const OrderHistoryList: React.FC<OrderHistoryListProps> = (props) => {
           );
         })}
       </IonList>
-      {orders.length > ORDER_DISPLAY_LIMIT && (
+      {orders.length > orderHistoryLimit && (
         <div className="ion-padding-top ion-text-center">
-          <IonButton fill="outline">Show all</IonButton>
+          <IonButton
+            fill="outline"
+            onClick={() => {
+              onShowAllClick && onShowAllClick();
+            }}
+          >
+            Show all
+          </IonButton>
         </div>
       )}
     </>

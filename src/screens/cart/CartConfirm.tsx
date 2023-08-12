@@ -21,7 +21,6 @@ import {
   checkmarkCircleOutline,
 } from "ionicons/icons";
 import { useState } from "react";
-import CartConfirmOrderSuccess from "../../components/cart/CartConfirmOrderSuccess";
 import { useAuth } from "../../context/AuthContext";
 import useProfile from "../../hooks/useProfile";
 import { insertOrder } from "../../services/orders";
@@ -38,6 +37,10 @@ const CartConfirmScreen: React.FC = () => {
   const { session } = useAuth();
   const order = useAppStore((state) => state.order);
   const setOrder = useAppStore((state) => state.setOrder);
+  const addOrderHistory = useAppStore((state) => state.addOrderHistory);
+  const clearCart = useAppStore((state) => state.clearCart);
+  const clearOrder = useAppStore((state) => state.clearOrder);
+
   const { profile } = useProfile(session?.user.id);
   const [acceptCorrectInformation, setAcceptCorrectInformation] =
     useState<boolean>(false);
@@ -77,8 +80,6 @@ const CartConfirmScreen: React.FC = () => {
       );
 
       if (!orderError && updatedOrder) {
-        setOrder(updatedOrder);
-
         const results = await updateProductOptionStock(
           productOptionsWithAvailableStock.map((option) => ({
             ...option,
@@ -94,6 +95,11 @@ const CartConfirmScreen: React.FC = () => {
           console.error("Could not update stock", results);
           return;
         }
+
+        addOrderHistory(updatedOrder);
+
+        clearCart();
+        clearOrder();
 
         router.push(AppRoutes.CartConfirmSuccessScreen, "root", "replace");
       }

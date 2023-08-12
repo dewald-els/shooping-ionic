@@ -5,8 +5,8 @@ import {
   IonText,
   IonItemDivider,
 } from "@ionic/react";
-import { CartProductOption } from "../../models/cart";
-import formatCurrency from "../../utils/formatCurrency";
+import { CartProductOption } from "../../../models/cart";
+import formatCurrency from "../../../utils/formatCurrency";
 
 type OrderHistoryDetailProductsProps = {
   products: CartProductOption[];
