@@ -4,6 +4,7 @@ import {
   IonContent,
   IonHeader,
   IonPage,
+  IonSearchbar,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -25,6 +26,9 @@ const OrderHistoryScreen: React.FC = () => {
             <IonBackButton />
           </IonButtons>
           <IonTitle>Order history</IonTitle>
+        </IonToolbar>
+        <IonToolbar color="primary">
+          <IonSearchbar placeholder="Search orders" />
         </IonToolbar>
       </IonHeader>
       <IonContent>

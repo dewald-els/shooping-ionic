@@ -52,7 +52,11 @@ const TabScreen: React.FC = () => {
 
         <Route path="/tabs/products" component={ProductsTabScreen} />
         <Route exact path="/tabs/you" component={YouTabScreen} />
-        <Route path="/tabs/you/order-history" component={OrderHistoryScreen} />
+        <Route
+          exact
+          path="/tabs/you/order-history"
+          component={OrderHistoryScreen}
+        />
         <Route
           path="/tabs/you/order-history/:orderId"
           component={OrderHistoryDetail}
