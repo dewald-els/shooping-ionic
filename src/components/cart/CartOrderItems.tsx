@@ -66,6 +66,7 @@ const CartOderItems = () => {
             </IonItem>
             <IonItem lines="full" key={"quantity-" + option.id}>
               <QuantityButtons
+                quantity={option.quantity}
                 startQuantity={option.quantity}
                 limit={option.stock}
                 onQuantityChange={() => {}}

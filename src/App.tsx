@@ -31,7 +31,9 @@ import CartScreen from "./screens/cart/Cart";
 import CartConfirmScreen from "./screens/cart/CartConfirm";
 import CartConfirmSuccessScreen from "./screens/cart/CartConfirmSuccess";
 
-setupIonicReact();
+setupIonicReact({
+  innerHTMLTemplatesEnabled: true,
+});
 
 const App: React.FC = () => (
   <IonApp>

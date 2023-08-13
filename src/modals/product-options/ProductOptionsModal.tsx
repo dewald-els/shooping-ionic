@@ -1,12 +1,11 @@
 import { useState } from "react";
 import {
-  IonBadge,
   IonButton,
   IonButtons,
   IonContent,
   IonFooter,
   IonHeader,
-  IonImg,
+  IonIcon,
   IonItem,
   IonList,
   IonPage,
@@ -16,6 +15,7 @@ import {
   IonTitle,
   IonToolbar,
   RadioGroupChangeEventDetail,
+  useIonLoading,
   useIonToast,
 } from "@ionic/react";
 import useProductOptions from "../../hooks/useProductOptions";
@@ -23,7 +23,7 @@ import useAppStore from "../../store/store";
 import { ProductOption } from "../../models/product-option";
 import formatCurrency from "../../utils/formatCurrency";
 import ProductOptionsLoader from "./ProductOptionsLoader";
-import { basketOutline } from "ionicons/icons";
+import { basketOutline, cartOutline } from "ionicons/icons";
 import ProductOptionsModalTitle from "./ProductOptionsModalTitle";
 import ProductOptionsModalImage from "./ProductOptionsModalImage";
 import QuantityButtons from "../../components/shared/quantity-buttons/QuantityButtons";
@@ -34,7 +34,6 @@ type ProductOptionsModalProps = {
 
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
-  const [presentToast, dismissToast] = useIonToast();
   const selectedProduct = useAppStore((state) => state.selectedProduct);
   const addToCart = useAppStore((state) => state.addToCart);
   const [selectedProductOption, setSelectedProductOption] =
@@ -51,7 +50,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
     const productOption = productOptions.find((option) => option.id === id);
     if (productOption) {
       setSelectedProductOption(productOption);
-      setQuantity(0);
+      setQuantity(1);
     }
   };
 
@@ -65,22 +64,6 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
       quantity,
       stock: selectedProductOption.stock,
       image: selectedProduct?.image,
-    });
-
-    await presentToast({
-      icon: basketOutline,
-      message: `Added ${quantity} x ${selectedProductOption.name} to order`,
-      duration: 5000,
-      color: "dark",
-      position: "top",
-      buttons: [
-        {
-          text: "Ok",
-          handler: () => {
-            dismissToast();
-          },
-        },
-      ],
     });
   };
 
@@ -140,12 +123,13 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         <IonToolbar>
           <div className="flex justify-between items-center ion-padding-start ion-padding-end">
             <QuantityButtons
+              quantity={quantity}
               limit={selectedProductOption?.stock || 0}
               onQuantityChange={handleQuantityChange}
             />
             <div>
               <div>
-                <IonButton onClick={handleAddClick}>
+                <IonButton onClick={handleAddClick} disabled={quantity === 0}>
                   <div className="flex gap-1 items-center">
                     <span>Add</span>
                     <span>{priceToAdd}</span>

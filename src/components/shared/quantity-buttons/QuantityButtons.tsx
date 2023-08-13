@@ -4,6 +4,7 @@ import { useState } from "react";
 type QuantityButtonsProps = {
   limit: number;
   startQuantity?: number;
+  quantity: number;
   onQuantityChange: (quantity: number) => void;
 };
 
@@ -13,9 +14,9 @@ enum QuantityAction {
 }
 
 const QuantityButtons: React.FC<QuantityButtonsProps> = (props) => {
-  const { startQuantity = 0, limit = 0, onQuantityChange } = props;
+  const { startQuantity = 0, quantity, limit = 0, onQuantityChange } = props;
 
-  const [quantity, setQuantity] = useState(startQuantity);
+  // const [quantity, setQuantity] = useState(startQuantity);
 
   const handleQuantityChange = (action: QuantityAction) => {
     let newQuantity = 0;
@@ -30,7 +31,7 @@ const QuantityButtons: React.FC<QuantityButtonsProps> = (props) => {
         return;
     }
 
-    setQuantity(newQuantity);
+    //setQuantity(newQuantity);
     onQuantityChange(newQuantity);
   };
 
