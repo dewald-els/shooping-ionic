@@ -15,6 +15,7 @@ import {
   IonTitle,
   IonToolbar,
   RadioGroupChangeEventDetail,
+  useIonAlert,
   useIonLoading,
   useIonToast,
 } from "@ionic/react";
@@ -34,6 +35,7 @@ type ProductOptionsModalProps = {
 
 const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const { onDismiss } = props;
+  const [presentAlert] = useIonAlert();
   const selectedProduct = useAppStore((state) => state.selectedProduct);
   const addToCart = useAppStore((state) => state.addToCart);
   const [selectedProductOption, setSelectedProductOption] =
