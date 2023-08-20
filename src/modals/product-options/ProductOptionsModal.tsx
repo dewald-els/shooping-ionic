@@ -38,6 +38,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
   const [presentAlert] = useIonAlert();
   const selectedProduct = useAppStore((state) => state.selectedProduct);
   const addToCart = useAppStore((state) => state.addToCart);
+  const cart = useAppStore((state) => state.cart);
   const [selectedProductOption, setSelectedProductOption] =
     useState<ProductOption | null>(null);
   const { productOptions = [], error } = useProductOptions(selectedProduct);
@@ -67,11 +68,32 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
       stock: selectedProductOption.stock,
       image: selectedProduct?.image,
     });
+
+    // Update local stock.
+
+    presentAlert({
+      message: `Successfully added ${quantity} ${selectedProductOption.name} to the order`,
+      buttons: ["Ok"],
+      onDidDismiss: () => {
+        setQuantity(0);
+      },
+    });
   };
 
   const priceToAdd = formatCurrency(
     selectedProductOption ? selectedProductOption.price * quantity : 0
   );
+
+  let availableStock = selectedProductOption?.stock;
+  if (selectedProductOption) {
+    const orderProductOption = cart?.product_options.find(
+      (option) => option.id === selectedProductOption?.id
+    );
+    if (orderProductOption) {
+      availableStock =
+        selectedProductOption.stock - orderProductOption.quantity;
+    }
+  }
 
   return (
     <IonPage>
@@ -94,6 +116,18 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
               <IonRadioGroup onIonChange={handleOptionChange}>
                 {productOptions.map((option: ProductOption) => {
                   const optionDisplayPrice = formatCurrency(option.price);
+
+                  let availableStock = option?.stock;
+                  if (option) {
+                    const orderProductOption = cart?.product_options.find(
+                      (option) => option.id === option?.id
+                    );
+                    if (orderProductOption) {
+                      availableStock =
+                        option.stock - orderProductOption.quantity;
+                    }
+                  }
+
                   return (
                     <IonItem key={option.id}>
                       <IonRadio
@@ -101,14 +135,14 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
                         labelPlacement="end"
                         justify="start"
                         value={option.id}
-                        disabled={option.stock <= 0}
+                        disabled={availableStock <= 0}
                       >
                         {option.name}
                       </IonRadio>
-                      {option.stock > 0 && (
+                      {availableStock > 0 && (
                         <span slot="end">{optionDisplayPrice}</span>
                       )}
-                      {option.stock <= 0 && (
+                      {availableStock <= 0 && (
                         <IonText color="danger" slot="end">
                           <span>Out of stock</span>
                         </IonText>
@@ -126,7 +160,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
           <div className="flex justify-between items-center ion-padding-start ion-padding-end">
             <QuantityButtons
               quantity={quantity}
-              limit={selectedProductOption?.stock || 0}
+              limit={availableStock || 0}
               onQuantityChange={handleQuantityChange}
             />
             <div>

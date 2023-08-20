@@ -10,6 +10,7 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  IonImg,
   IonInput,
   IonItem,
   IonLabel,
@@ -23,7 +24,13 @@ import React, { useState } from "react";
 import { AppRoutes } from "../../consts/routes";
 import { supabase } from "../../services/supabase";
 import { useAuth } from "../../context/AuthContext";
-import { warningOutline } from "ionicons/icons";
+import {
+  helpCircleOutline,
+  lockOpenOutline,
+  logInOutline,
+  starOutline,
+  warningOutline,
+} from "ionicons/icons";
 import AlertBox from "../../components/shared/alert-box/AlertBox";
 
 const LoginScreen: React.FC = () => {
@@ -60,6 +67,10 @@ const LoginScreen: React.FC = () => {
       </IonHeader>
       <IonContent>
         <div className="ion-padding">
+          <IonText>
+            <h2>Member login</h2>
+          </IonText>
+
           <div className="ion-padding-bottom">
             <IonInput
               mode="md"
@@ -97,7 +108,15 @@ const LoginScreen: React.FC = () => {
             expand="block"
             disabled={!email || !password || loading}
           >
+            <IonIcon slot="start" icon={logInOutline} />
             Login
+          </IonButton>
+        </div>
+
+        <div className="ion-padding flex justify-center">
+          <IonButton fill="clear">
+            <IonIcon slot="start" icon={helpCircleOutline} />
+            Forgot your password?
           </IonButton>
         </div>
 

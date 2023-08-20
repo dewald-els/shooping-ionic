@@ -4,6 +4,7 @@ import {
   IonFooter,
   IonHeader,
   IonIcon,
+  IonImg,
   IonItem,
   IonLabel,
   IonList,
@@ -19,7 +20,11 @@ import "./Home.css";
 import { AppRoutes } from "../../consts/routes";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { hourglassOutline, informationCircleOutline } from "ionicons/icons";
+import {
+  hourglassOutline,
+  informationCircleOutline,
+  starOutline,
+} from "ionicons/icons";
 import useAppStore from "../../store/store";
 
 const HomeScreen: React.FC = () => {
@@ -107,11 +112,30 @@ const HomeScreen: React.FC = () => {
         )}
         {isReady && !session && (
           <div className="ion-padding ion-text-center">
+            <div>
+              <IonImg
+                src="home-logo.png"
+                alt="Logo"
+                style={{
+                  width: "200px",
+                  display: "block",
+                  margin: "0 auto",
+                  borderRadius: "0.5rem",
+                  overflow: "hidden",
+                }}
+              />
+            </div>
+
             <IonText>
-              <h1>Private Club</h1>
+              <h1>Everything Edible</h1>
+            </IonText>
+
+            <IonText color="medium">
+              <h2 className="margin-top-0">Private Club</h2>
             </IonText>
 
             <IonButton onClick={handleCreateAccountClick}>
+              <IonIcon slot="start" icon={starOutline} />
               Join the club
             </IonButton>
 
