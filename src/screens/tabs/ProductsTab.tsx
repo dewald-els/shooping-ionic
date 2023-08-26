@@ -14,7 +14,6 @@ import useProducts from "../../hooks/useProducts";
 import { useRef, useState } from "react";
 import { Product } from "../../models/product";
 import useAppStore from "../../store/store";
-import CartFab from "../../components/cart/CartFab";
 import CartToolbarButton from "../../components/cart/CartToolbarButton";
 import ProductOptionsModal from "../../modals/product-options/ProductOptionsModal";
 
@@ -78,7 +77,6 @@ const ProductsTabScreen: React.FC = () => {
           products={filteredProducts}
           onProductClick={handleProductClick}
         />
-        <CartFab />
       </IonContent>
     </IonPage>
   );

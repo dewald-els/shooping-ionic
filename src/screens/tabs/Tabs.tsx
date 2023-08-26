@@ -41,8 +41,6 @@ const TabScreen: React.FC = () => {
     us: routeInfo.pathname.includes("us") ? storefront : storefrontOutline,
   };
 
-  console.log("routeInfo", routeInfo.pathname);
-
   return (
     <IonTabs>
       <IonRouterOutlet>
