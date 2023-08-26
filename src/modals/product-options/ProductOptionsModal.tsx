@@ -84,13 +84,13 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
     selectedProductOption ? selectedProductOption.price * quantity : 0
   );
 
-  let availableStock = selectedProductOption?.stock;
+  let selectedProductOptionAvailableStock = selectedProductOption?.stock;
   if (selectedProductOption) {
     const orderProductOption = cart?.product_options.find(
       (option) => option.id === selectedProductOption?.id
     );
     if (orderProductOption) {
-      availableStock =
+      selectedProductOptionAvailableStock =
         selectedProductOption.stock - orderProductOption.quantity;
     }
   }
@@ -117,15 +117,15 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
                 {productOptions.map((option: ProductOption) => {
                   const optionDisplayPrice = formatCurrency(option.price);
 
-                  let availableStock = option?.stock;
-                  if (option) {
-                    const orderProductOption = cart?.product_options.find(
-                      (option) => option.id === option?.id
-                    );
-                    if (orderProductOption) {
-                      availableStock =
-                        option.stock - orderProductOption.quantity;
-                    }
+                  let optionAvailableStock = option?.stock;
+
+                  const orderProductOption = cart?.product_options.find(
+                    (orderOption) => option.id === orderOption.id
+                  );
+
+                  if (orderProductOption) {
+                    optionAvailableStock =
+                      option.stock - orderProductOption.quantity;
                   }
 
                   return (
@@ -135,14 +135,14 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
                         labelPlacement="end"
                         justify="start"
                         value={option.id}
-                        disabled={availableStock <= 0}
+                        disabled={optionAvailableStock <= 0}
                       >
                         {option.name}
                       </IonRadio>
-                      {availableStock > 0 && (
+                      {optionAvailableStock > 0 && (
                         <span slot="end">{optionDisplayPrice}</span>
                       )}
-                      {availableStock <= 0 && (
+                      {optionAvailableStock <= 0 && (
                         <IonText color="danger" slot="end">
                           <span>Out of stock</span>
                         </IonText>
@@ -160,7 +160,7 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
           <div className="flex justify-between items-center ion-padding-start ion-padding-end">
             <QuantityButtons
               quantity={quantity}
-              limit={availableStock || 0}
+              limit={selectedProductOptionAvailableStock || 0}
               onQuantityChange={handleQuantityChange}
             />
             <div>
