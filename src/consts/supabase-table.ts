@@ -6,4 +6,5 @@ export enum SupabaseTable {
   shopInfo = "shop_information",
   openingHours = "opening_hours",
   orders = "orders",
+  storeInfo = "store_info",
 }

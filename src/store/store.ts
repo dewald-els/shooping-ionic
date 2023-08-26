@@ -8,6 +8,7 @@ import { omit } from "lodash";
 import { Cart, CartProductOption } from "../models/cart";
 import { format } from "date-fns";
 import { Order } from "../models/order";
+import { StoreInfo } from "../models/store-info";
 
 interface AppState {
   products: Product[];
@@ -41,6 +42,9 @@ interface AppState {
   order: Order | null;
   clearOrder: () => void;
   setOrder: (order: Order) => void;
+
+  storeInfo: StoreInfo[];
+  setStoreInfo: (storeInfo: StoreInfo[]) => void;
 }
 
 const useAppStore = create<AppState>()(
@@ -203,6 +207,11 @@ const useAppStore = create<AppState>()(
               return order;
             }),
           }));
+        },
+        // Store Info
+        storeInfo: [],
+        setStoreInfo: (storeInfo: StoreInfo[]) => {
+          set(() => ({ storeInfo }));
         },
       }),
       {

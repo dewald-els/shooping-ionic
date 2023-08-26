@@ -1,6 +1,6 @@
 import { IonBadge, IonIcon, IonItem, IonLabel, IonText } from "@ionic/react";
 import { Product } from "../../models/product";
-import { categoryIcon } from "../../utils/categoryIcon";
+import { getIconFromString } from "../../utils/getIconFromString";
 
 type ProductOptionsTitleProps = {
   product?: Product;
@@ -17,7 +17,7 @@ const ProductOptionsModalTitle: React.FC<ProductOptionsTitleProps> = (
         color={category?.color}
         className="flex-inline items-center justify-start"
       >
-        {category && <IonIcon icon={categoryIcon(category.icon)} />}
+        {category && <IonIcon icon={getIconFromString(category.icon)} />}
         <IonText className="padding-start-1">{product?.category}</IonText>
       </IonBadge>
 

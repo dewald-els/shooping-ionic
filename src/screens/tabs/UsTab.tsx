@@ -13,6 +13,7 @@ import {
 import OpeningHours from "../../components/opening-hours/OpeningHours";
 import { AppRoutes } from "../../consts/routes";
 import { bookOutline } from "ionicons/icons";
+import StoreInfo from "../../components/store-info/StoreInfo";
 
 const UsTabScreen: React.FC = () => {
   const router = useIonRouter();
@@ -28,8 +29,7 @@ const UsTabScreen: React.FC = () => {
       </IonHeader>
       <IonContent>
         <OpeningHours />
-
-        <br />
+        <StoreInfo />
 
         <IonList>
           <IonItem button onClick={handleTermsClick} detail={true}>

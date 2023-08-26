@@ -1,6 +1,6 @@
 import * as Icon from "ionicons/icons";
 
-export const categoryIcon = (iconName: string) => {
+export const getIconFromString = (iconName: string) => {
   //@ts-ignore
   return Icon[iconName];
 };
