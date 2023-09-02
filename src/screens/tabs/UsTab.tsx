@@ -29,8 +29,9 @@ const UsTabScreen: React.FC = () => {
       </IonHeader>
       <IonContent>
         <OpeningHours />
-        <StoreInfo />
 
+        <IonItem lines="none" />
+        <StoreInfo />
         <IonList>
           <IonItem button onClick={handleTermsClick} detail={true}>
             <IonIcon slot="start" icon={bookOutline} /> Terms and conditions

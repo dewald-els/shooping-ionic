@@ -14,7 +14,7 @@ const OpeningHours: React.FC = () => {
   return (
     <IonList>
       <IonItem>
-        <IonIcon icon={timeOutline} slot="start" />
+        <IonIcon icon={timeOutline} slot="start" color="primary" />
         <IonLabel>Opening hours</IonLabel>
       </IonItem>
       {openingHours.map((openingHour) => {

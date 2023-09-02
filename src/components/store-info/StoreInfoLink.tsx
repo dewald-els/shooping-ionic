@@ -14,7 +14,7 @@ export const StoreInfoLink = (props: StoreInfoLinkProps) => {
   };
   return (
     <div className="ion-padding">
-      <IonButton onClick={handleLinkClick}>
+      <IonButton onClick={handleLinkClick} fill="outline" expand="block">
         <IonIcon slot="start" icon={getIconFromString(icon)} />
         {label}
       </IonButton>
