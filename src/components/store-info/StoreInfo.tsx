@@ -4,6 +4,7 @@ import { StoreInfoType } from "../../models/store-info";
 import StoreInfoCSV from "./StoreInfoCSV";
 import StoreInfoPhone from "./StoreInfoPhone";
 import StoreInfoLink from "./StoreInfoLink";
+import StoreInfoChat from "./StoreInfoChat";
 
 const StoreInfo = () => {
   const { storeInfo, error } = useStoreInfo();
@@ -18,6 +19,8 @@ const StoreInfo = () => {
             return <StoreInfoPhone storeInfo={info} key={info.id} />;
           case StoreInfoType.link:
             return <StoreInfoLink storeInfo={info} key={info.id} />;
+          case StoreInfoType.chat:
+            return <StoreInfoChat storeInfo={info} key={info.id} />;
           default:
             return null;
         }

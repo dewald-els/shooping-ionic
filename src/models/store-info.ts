@@ -11,4 +11,5 @@ export enum StoreInfoType {
   csv = "csv",
   link = "link",
   phone = "phone",
+  chat = "chat",
 }
