@@ -14,9 +14,24 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { starOutline } from "ionicons/icons";
+import CreateAccount from "../../components/create-account/CreateAccount";
+import CreateAccountContact from "../../components/create-account/CreateAccountContact";
+import CreateAccountAddress from "../../components/create-account/CreateAccountAddress";
+import { useState } from "react";
+
+enum CreateAccountStep {
+  Account,
+  Contact,
+  Address,
+  Complete,
+}
 
 const CreateAccountScreen: React.FC = () => {
   const router = useIonRouter();
+
+  const [step, setStep] = useState<CreateAccountStep>(
+    CreateAccountStep.Contact
+  );
 
   const handleFormSubmit = (e: any) => {
     e.preventDefault();
@@ -35,120 +50,9 @@ const CreateAccountScreen: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <form onSubmit={handleFormSubmit}>
-          <IonText>
-            <h4>Account</h4>
-          </IonText>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="emailAddress"
-              name="emailAddress"
-              label="Email address"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="example@email.com"
-              type="email"
-            />
-          </div>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="password"
-              name="password"
-              label="Password"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="******"
-              type="password"
-            />
-          </div>
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="confirmPassword"
-              name="confirmPassword"
-              label="Confirm password"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="******"
-              type="password"
-            />
-          </div>
-
-          <IonText>
-            <h4>Contact</h4>
-          </IonText>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="fullName"
-              name="fullName"
-              label="Full name"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="John Doe"
-              type="text"
-            />
-          </div>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="phoneNumber"
-              name="phoneNumber"
-              label="Phone number"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="071 123 4567"
-              type="tel"
-            />
-          </div>
-
-          <IonText>
-            <h4>Address</h4>
-          </IonText>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="street"
-              name="street"
-              label="Street"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="Street 123"
-              type="text"
-            />
-          </div>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="city"
-              name="city"
-              label="City"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="City"
-              type="text"
-            />
-          </div>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="postCode"
-              name="postCode"
-              label="Post code"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="Post code"
-              type="tel"
-            />
-          </div>
+          {step === CreateAccountStep.Account && <CreateAccount />}
+          {step === CreateAccountStep.Contact && <CreateAccountContact />}
+          {step === CreateAccountStep.Address && <CreateAccountAddress />}
 
           <div className="ion-padding-bottom">
             <IonCheckbox labelPlacement="end" justify="start">
