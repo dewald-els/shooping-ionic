@@ -10,10 +10,19 @@ const AuthContext = createContext<AuthContext>({
   session: null,
 });
 
-export const useAuth = () => {
+/**
+ * Hook that provides the authenticated session from Supabase.
+ * @returns {AuthContext} The authenticated session from Supabase.
+ */
+export const useAuth = (): AuthContext => {
   return useContext(AuthContext);
 };
 
+/**
+ * Provide the authenticated session from Supabase to the entire app.
+ * @param props { children: React.ReactNode}
+ * @returns
+ */
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
 
@@ -28,8 +37,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("Logged in or out");
-      console.log(_event, session);
       setSession(session);
     });
   }, []);

@@ -6,6 +6,11 @@ type CategoryWithProducts = {
 } & Category;
 type ProductCategories = Record<string, CategoryWithProducts>;
 
+/**
+ * Group products by category
+ * @param products {Product[]}
+ * @returns {ProductCategories}
+ */
 const groupProductsByCategory = (products: Product[]): ProductCategories => {
   return products.reduce(
     (productCategories: ProductCategories, product: Product) => {

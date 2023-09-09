@@ -1,5 +1,8 @@
 import { OrderStatus } from "../models/order";
 
+/**
+ * Map order status to an Ionic color
+ */
 const OrderStatusToColorMap: Record<OrderStatus, string> = {
   [OrderStatus.Accepted]: "primary",
   [OrderStatus.Cancelled]: "danger",
