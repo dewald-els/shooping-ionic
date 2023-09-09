@@ -48,9 +48,11 @@ const CartOderItems = () => {
 
         return (
           <IonItemGroup key={option.id}>
-            <IonItem key={"item-" + option.id} lines="none">
+            <IonItem key={"item-" + option.id}>
               <IonLabel>
-                <h2>{option.name}</h2>
+                <h2>
+                  {option.quantity} x {option.name}
+                </h2>
                 <p>{unitPrice}</p>
               </IonLabel>
               <IonLabel slot="end">
@@ -63,14 +65,6 @@ const CartOderItems = () => {
               >
                 <IonIcon slot="icon-only" icon={closeOutline} />
               </IonButton>
-            </IonItem>
-            <IonItem lines="full" key={"quantity-" + option.id}>
-              <QuantityButtons
-                quantity={option.quantity}
-                startQuantity={option.quantity}
-                limit={option.stock}
-                onQuantityChange={() => {}}
-              />
             </IonItem>
           </IonItemGroup>
         );
