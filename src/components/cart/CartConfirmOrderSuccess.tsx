@@ -43,7 +43,7 @@ const CartConfirmOrderSuccess: React.FC<CartConfirmOrderSuccessProps> = (
     <>
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Your order has been succesful!</IonCardTitle>
+          <IonCardTitle>Your order has been successful!</IonCardTitle>
           <IonCardSubtitle>
             Nice! The store will confirm the delivery.
           </IonCardSubtitle>

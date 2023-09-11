@@ -9,16 +9,21 @@ import {
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import formatCurrency from "../../utils/formatCurrency";
-import QuantityButtons from "../shared/quantity-buttons/QuantityButtons";
 import useAppStore from "../../store/store";
+import { Cart } from "../../models/cart";
 
-const CartOderItems = () => {
+type CartOrderItemsProps = {
+  cart: Cart | null;
+};
+
+const CartOderItems: React.FC<CartOrderItemsProps> = (props) => {
   const [presentAlert] = useIonAlert();
 
   const removeProductOptionFromCart = useAppStore(
     (state) => state.removeProductOptionFromCart
   );
-  const cart = useAppStore((state) => state.cart);
+  // const cart = useAppStore((state) => state.cart);
+  const { cart } = props;
   const productOptions = cart?.product_options || [];
 
   const handleRemoveItemFromCart = (productOptionId: number) => {
@@ -53,12 +58,14 @@ const CartOderItems = () => {
                 <h2>
                   {option.quantity} x {option.name}
                 </h2>
-                <p>{unitPrice}</p>
+                <p data-testid="unit-price">{unitPrice}</p>
               </IonLabel>
               <IonLabel slot="end">
-                <h2>{linePrice}</h2>
+                <h2 data-testid="line-price">{linePrice}</h2>
               </IonLabel>
               <IonButton
+                data-testid="remove-item-from-cart"
+                role="button"
                 slot="end"
                 color="danger"
                 onClick={() => handleRemoveItemFromCart(option.id)}

@@ -25,10 +25,6 @@ const CartScreen: React.FC = () => {
   const router = useIonRouter();
   const cart = useAppStore((state) => state.cart);
   const setOrder = useAppStore((state) => state.setOrder);
-  const clearCart = useAppStore((state) => state.clearCart);
-  const clearOrder = useAppStore((state) => state.clearOrder);
-  const addOrderHistory = useAppStore((state) => state.addOrderHistory);
-  const order = useAppStore((state) => state.order);
   const { session } = useAuth();
   const { profile } = useProfile(session?.user.id);
   const productOptions: CartProductOption[] = [];
@@ -75,7 +71,7 @@ const CartScreen: React.FC = () => {
           <CartOrderEmpty onGoShoppingClick={handleGoShoppingClick} />
         )}
 
-        <CartOrderItems />
+        <CartOrderItems cart={cart} />
       </IonContent>
       {productOptions.length > 0 && (
         <CartConfirmOrderButton

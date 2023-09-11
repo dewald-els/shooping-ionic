@@ -16,7 +16,11 @@ const CartConfirmOrderButton: React.FC<CartConfirmOrderButtonProps> = (
       <IonToolbar>
         <div className="flex justify-center">
           <IonButton color="success" onClick={onCartConfirmed}>
-            <IonIcon slot="start" icon={checkmarkCircleOutline} />
+            <IonIcon
+              slot="start"
+              icon={checkmarkCircleOutline}
+              data-testid="checkmark-circle-icon"
+            />
             Confirm Order {cartTotalCurrency}
           </IonButton>
         </div>
