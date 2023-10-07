@@ -3,6 +3,10 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonCheckbox,
   IonContent,
   IonHeader,
@@ -31,6 +35,9 @@ import {
 import useAppStore from "../../store/store";
 import formatCurrency from "../../utils/formatCurrency";
 import { AppRoutes } from "../../consts/routes";
+import DeliveryOptions from "../../components/delivery-options/DeliveryOptions";
+import useDeliveryOptions from "../../hooks/useDeliveryOptions";
+import { DeliveryOption } from "../../models/delivery-option";
 
 const CartConfirmScreen: React.FC = () => {
   const router = useIonRouter();
@@ -40,10 +47,12 @@ const CartConfirmScreen: React.FC = () => {
   const addOrderHistory = useAppStore((state) => state.addOrderHistory);
   const clearCart = useAppStore((state) => state.clearCart);
   const clearOrder = useAppStore((state) => state.clearOrder);
-
+  const { deliveryOptions } = useDeliveryOptions();
   const { profile } = useProfile(session?.user.id);
   const [acceptCorrectInformation, setAcceptCorrectInformation] =
     useState<boolean>(false);
+  const [selectedDeliveryOption, setSelectedDeliveryOption] =
+    useState<DeliveryOption | null>(null);
 
   const handleConfirmClick = async () => {
     if (!order) {
@@ -106,11 +115,13 @@ const CartConfirmScreen: React.FC = () => {
     }
   };
 
-  const handleCancelClick = () => {
-    router.goBack();
+  const handleDeliveryOptionChange = (option: DeliveryOption) => {
+    setSelectedDeliveryOption(option);
   };
 
   const orderTotalCurrency = formatCurrency(order ? order.total : 0);
+
+  console.log("selectedDeliveryOption", selectedDeliveryOption);
 
   return (
     <IonPage>
@@ -125,71 +136,96 @@ const CartConfirmScreen: React.FC = () => {
       <IonContent>
         {profile && order && (
           <>
-            <IonItem>
-              <IonIcon slot="start" icon={personOutline} color="primary" />
-              <IonLabel>Delivery for</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonLabel color="medium">Name</IonLabel>
-              <IonLabel slot="end">{profile.full_name}</IonLabel>
-            </IonItem>
+            <DeliveryOptions
+              deliveryOptions={deliveryOptions}
+              onDeliveryOptionChange={handleDeliveryOptionChange}
+            />
 
-            <IonItem>
-              <IonLabel color="medium">Phone number</IonLabel>
-              <IonLabel slot="end">{profile.phone_number}</IonLabel>
-            </IonItem>
+            {selectedDeliveryOption && (
+              <>
+                <IonItem>
+                  <IonIcon slot="start" icon={personOutline} color="primary" />
+                  <IonLabel>Delivery for</IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonLabel color="medium">Name</IonLabel>
+                  <IonLabel slot="end">{profile.full_name}</IonLabel>
+                </IonItem>
 
-            <IonItem>
-              <IonIcon slot="start" icon={locationOutline} color="primary" />
-              <IonLabel>Delivery address</IonLabel>
-            </IonItem>
-            <IonItem>
-              <IonLabel>{profile.street}</IonLabel>
-            </IonItem>
-            <IonItem>{profile.city}</IonItem>
-            <IonItem>{profile.postCode}</IonItem>
+                <IonItem>
+                  <IonLabel color="medium">Phone number</IonLabel>
+                  <IonLabel slot="end">{profile.phone_number}</IonLabel>
+                </IonItem>
 
-            <div className="ion-padding">
-              <div className="ion-padding-bottom">
-                <IonTextarea
-                  mode="md"
-                  id="deliveryInstructions"
-                  name="deliveryInstructions"
-                  label="Delivery instructions (Optional)"
-                  fill="outline"
-                  labelPlacement="floating"
-                  placeholder="Any special instructions?"
-                  rows={3}
-                  onIonInput={(
-                    event: CustomEvent<InputChangeEventDetail>
-                  ) => {}}
-                />
-              </div>
-            </div>
+                {selectedDeliveryOption &&
+                  selectedDeliveryOption.requires_address && (
+                    <IonCard>
+                      <IonCardHeader>
+                        <IonCardTitle>
+                          <span className="flex justify-between">
+                            Delivery address
+                            <IonButton slot="end" fill="outline" size="small">
+                              Change
+                            </IonButton>
+                          </span>
+                        </IonCardTitle>
+                      </IonCardHeader>
 
-            <IonItem>
-              <IonCheckbox
-                mode="ios"
-                labelPlacement="end"
-                justify="start"
-                onIonChange={() =>
-                  setAcceptCorrectInformation((accepted) => !accepted)
-                }
-              >
-                I confirm the above information is correct
-              </IonCheckbox>
-            </IonItem>
+                      <IonItem lines="none">
+                        <IonIcon
+                          slot="start"
+                          icon={locationOutline}
+                          color="primary"
+                          size="large"
+                        />
+                        {profile.street}, {profile.city}, {profile.postCode}
+                      </IonItem>
+                    </IonCard>
+                  )}
 
-            <div className="flex justify-center ion-padding">
-              <IonButton
-                color="success"
-                disabled={!acceptCorrectInformation}
-                onClick={handleConfirmClick}
-              >
-                <IonIcon slot="start" icon={checkmarkCircleOutline} />
-                Complete order for {orderTotalCurrency}
-              </IonButton>
-            </div>
+                <div className="ion-padding">
+                  <div className="ion-padding-bottom">
+                    <IonTextarea
+                      mode="md"
+                      id="deliveryInstructions"
+                      name="deliveryInstructions"
+                      label="Delivery instructions (Optional)"
+                      fill="outline"
+                      labelPlacement="floating"
+                      placeholder="Any special instructions?"
+                      rows={3}
+                      onIonInput={(
+                        event: CustomEvent<InputChangeEventDetail>
+                      ) => {}}
+                    />
+                  </div>
+                </div>
+
+                <IonItem>
+                  <IonCheckbox
+                    mode="ios"
+                    labelPlacement="end"
+                    justify="start"
+                    onIonChange={() =>
+                      setAcceptCorrectInformation((accepted) => !accepted)
+                    }
+                  >
+                    I confirm the above information is correct
+                  </IonCheckbox>
+                </IonItem>
+
+                <div className="flex justify-center ion-padding">
+                  <IonButton
+                    color="success"
+                    disabled={!acceptCorrectInformation}
+                    onClick={handleConfirmClick}
+                  >
+                    <IonIcon slot="start" icon={checkmarkCircleOutline} />
+                    Complete order for {orderTotalCurrency}
+                  </IonButton>
+                </div>
+              </>
+            )}
           </>
         )}
       </IonContent>

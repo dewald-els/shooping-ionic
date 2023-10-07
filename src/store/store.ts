@@ -9,6 +9,7 @@ import { Cart, CartProductOption } from "../models/cart";
 import { format } from "date-fns";
 import { Order } from "../models/order";
 import { StoreInfo } from "../models/store-info";
+import { DeliveryOption } from "../models/delivery-option";
 
 interface AppState {
   products: Product[];
@@ -45,6 +46,9 @@ interface AppState {
 
   storeInfo: StoreInfo[];
   setStoreInfo: (storeInfo: StoreInfo[]) => void;
+
+  deliveryOptions: DeliveryOption[];
+  setDeliveryOptions: (deliveryOptions: DeliveryOption[]) => void;
 }
 
 const useAppStore = create<AppState>()(
@@ -212,6 +216,11 @@ const useAppStore = create<AppState>()(
         storeInfo: [],
         setStoreInfo: (storeInfo: StoreInfo[]) => {
           set(() => ({ storeInfo }));
+        },
+        // Delivery Options
+        deliveryOptions: [],
+        setDeliveryOptions: (deliveryOptions: DeliveryOption[]) => {
+          set(() => ({ deliveryOptions }));
         },
       }),
       {
