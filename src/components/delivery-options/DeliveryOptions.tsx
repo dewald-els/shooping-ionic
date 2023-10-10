@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import { DeliveryOption } from "../../models/delivery-option";
 import formatCurrency from "../../utils/formatCurrency";
-import { carOutline } from "ionicons/icons";
+import { carOutline, cubeOutline } from "ionicons/icons";
 
 type DeliveryOptionsProps = {
   deliveryOptions: DeliveryOption[];
@@ -33,8 +33,8 @@ const DeliveryOptions: React.FC<DeliveryOptionsProps> = (props) => {
       <IonCardHeader>
         <IonCardTitle>
           <span className="flex items-center">
-            <IonIcon icon={carOutline} slot="start" />
-            Delivery options
+            <IonIcon icon={cubeOutline} slot="start" />
+            <span className="block margin-right-1">Delivery options</span>
           </span>
         </IonCardTitle>
         <IonCardSubtitle>Choose at least one</IonCardSubtitle>

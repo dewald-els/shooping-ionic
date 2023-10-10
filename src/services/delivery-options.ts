@@ -14,3 +14,17 @@ export const selectDeliveryOptions = async (): Promise<
     error: error?.hint ?? null,
   };
 };
+
+export const selectDeliveryOptionById = async (
+  deliveryOptionId: number
+): Promise<SupabaseResponse<DeliveryOption>> => {
+  const { data, error } = await supabase
+    .from(SupabaseTable.deliveryOptions)
+    .select("*")
+    .eq("id", deliveryOptionId)
+    .single();
+  return {
+    data: data as DeliveryOption,
+    error: error?.hint ?? null,
+  };
+};

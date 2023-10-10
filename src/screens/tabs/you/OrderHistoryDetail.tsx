@@ -13,8 +13,6 @@ import useOrderHistoryDetail from "../../../hooks/useOrderHistoryDetail";
 import { AppRoutes } from "../../../consts/routes";
 
 import formatCurrency from "../../../utils/formatCurrency";
-import { format } from "date-fns";
-import OrderStatusToColorMap from "../../../utils/orderStatusToColorMap";
 import { OrderStatus } from "../../../models/order";
 
 import { updateOrderStatus } from "../../../services/orders";
@@ -28,6 +26,8 @@ import OrderHistoryDetailProducts from "../../../components/orders/order-history
 import CancelOrderButton from "../../../components/orders/order-history-detail/CancelOrderButton";
 import OrderHistoryDetailHeader from "../../../components/orders/order-history-detail/OrderHistoryDetailHeader";
 import OrderHistoryDetailTotal from "../../../components/orders/order-history-detail/OrderHistoryDetailTotal";
+import OrderHistoryDetailDelivery from "../../../components/orders/order-history-detail/OrderHistoryDetailDelivery";
+import useDeliveryOptionById from "../../../hooks/useDeliveryOptionById";
 
 interface OrderHistoryDetailProps
   extends RouteComponentProps<{
@@ -48,12 +48,15 @@ const OrderHistoryDetail: React.FC<OrderHistoryDetailProps> = ({ match }) => {
     Number(orderId)
   );
 
+  const { deliveryOption, error: deliveryOptionError } = useDeliveryOptionById(
+    order?.delivery_option_id
+  );
+
   if (historyDetailError) {
     setErrors([...errors, historyDetailError]);
   }
 
   const products = order ? order.product_options : [];
-
   const orderTotalCurrency = formatCurrency(order?.total ?? 0);
 
   const handleOrderCancelConfirm = async () => {
@@ -116,6 +119,7 @@ const OrderHistoryDetail: React.FC<OrderHistoryDetailProps> = ({ match }) => {
       </IonHeader>
       <IonContent>
         <OrderHistoryDetailHeader order={order} />
+        <OrderHistoryDetailDelivery deliveryOption={deliveryOption} />
         <OrderHistoryDetailProducts products={products} />
         <OrderHistoryDetailTotal orderTotalCurrency={orderTotalCurrency} />
 

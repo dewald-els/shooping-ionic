@@ -60,6 +60,10 @@ const CartConfirmScreen: React.FC = () => {
       return;
     }
 
+    if (!selectedDeliveryOption) {
+      return;
+    }
+
     const productOptions = order.product_options;
 
     const cartProductOptionIds = productOptions.map((option) => option.id);
@@ -84,8 +88,15 @@ const CartConfirmScreen: React.FC = () => {
 
     if (missingStockItems.length > 0) {
     } else {
+      const orderWithDelivery = {
+        ...order,
+        total: order.total + selectedDeliveryOption.price,
+        delivery_option_id: selectedDeliveryOption?.id,
+        product_options: [...order.product_options],
+      };
+
       const { data: updatedOrder, error: orderError } = await insertOrder(
-        order!
+        orderWithDelivery
       );
 
       if (!orderError && updatedOrder) {
@@ -119,7 +130,10 @@ const CartConfirmScreen: React.FC = () => {
     setSelectedDeliveryOption(option);
   };
 
-  const orderTotalCurrency = formatCurrency(order ? order.total : 0);
+  const totalWithDelivery = order
+    ? order.total + (selectedDeliveryOption?.price ?? 0)
+    : 0;
+  const orderTotalCurrency = formatCurrency(totalWithDelivery);
 
   console.log("selectedDeliveryOption", selectedDeliveryOption);
 
@@ -143,6 +157,34 @@ const CartConfirmScreen: React.FC = () => {
 
             {selectedDeliveryOption && (
               <>
+                {selectedDeliveryOption &&
+                  selectedDeliveryOption.requires_address && (
+                    <IonCard>
+                      <IonCardHeader>
+                        <IonCardTitle>
+                          <span className="flex items-center">
+                            <IonIcon icon={locationOutline} slot="start" />
+                            <span className="block margin-right-1">
+                              Address
+                            </span>
+                            <IonButton
+                              slot="end"
+                              fill="outline"
+                              size="small"
+                              className="ml-auto"
+                            >
+                              Change
+                            </IonButton>
+                          </span>
+                        </IonCardTitle>
+                        <IonCardSubtitle>Check your address</IonCardSubtitle>
+                      </IonCardHeader>
+                      <IonItem lines="none">
+                        {profile.street}, {profile.city}, {profile.postCode}
+                      </IonItem>
+                    </IonCard>
+                  )}
+
                 <IonItem>
                   <IonIcon slot="start" icon={personOutline} color="primary" />
                   <IonLabel>Delivery for</IonLabel>
@@ -156,32 +198,6 @@ const CartConfirmScreen: React.FC = () => {
                   <IonLabel color="medium">Phone number</IonLabel>
                   <IonLabel slot="end">{profile.phone_number}</IonLabel>
                 </IonItem>
-
-                {selectedDeliveryOption &&
-                  selectedDeliveryOption.requires_address && (
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonCardTitle>
-                          <span className="flex justify-between">
-                            Delivery address
-                            <IonButton slot="end" fill="outline" size="small">
-                              Change
-                            </IonButton>
-                          </span>
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonItem lines="none">
-                        <IonIcon
-                          slot="start"
-                          icon={locationOutline}
-                          color="primary"
-                          size="large"
-                        />
-                        {profile.street}, {profile.city}, {profile.postCode}
-                      </IonItem>
-                    </IonCard>
-                  )}
 
                 <div className="ion-padding">
                   <div className="ion-padding-bottom">

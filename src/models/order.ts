@@ -9,6 +9,7 @@ export interface Order {
   product_options: CartProductOption[];
   total: number;
   status: OrderStatus;
+  delivery_option_id: number;
 }
 
 export enum OrderStatus {

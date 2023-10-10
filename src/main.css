@@ -5,7 +5,9 @@
 .justify-center {
   justify-content: center;
 }
-
+.block {
+  display: block;
+}
 .flex {
   display: flex;
 }
@@ -42,8 +44,17 @@
   text-align: right;
 }
 
+
+.margin-right-1 {
+  margin-right: 0.25rem;
+}
+
 .margin-bottom-0 {
   margin-bottom: 0;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 
 .margin-top-0 {
