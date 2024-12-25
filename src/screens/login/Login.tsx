@@ -66,63 +66,92 @@ const LoginScreen: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className="ion-padding">
-          <IonText>
-            <h2>Member login</h2>
-          </IonText>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="emailAddress"
-              name="emailAddress"
-              label="Email address"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="example@email.com"
-              type="email"
-              onIonInput={(event: CustomEvent<InputChangeEventDetail>) =>
-                setEmail(event.detail.value ?? "")
-              }
+        <>
+          <div>
+            <IonImg
+              src="login-bg.jpg"
+              alt="Logo"
+              style={{
+                objectFit: "cover",
+                width: "100%",
+                height: "350px",
+                display: "block",
+                margin: "0 auto",
+                overflow: "hidden",
+              }}
             />
           </div>
-
-          <div className="ion-padding-bottom">
-            <IonInput
-              mode="md"
-              id="password"
-              name="password"
-              label="Password"
-              fill="outline"
-              labelPlacement="floating"
-              placeholder="******"
-              type="password"
-              onIonInput={(event: CustomEvent<InputChangeEventDetail>) =>
-                setPassword(event.detail.value ?? "")
-              }
-            />
-          </div>
-
-          <IonButton
-            onClick={handleLoginClick}
-            expand="block"
-            disabled={!email || !password || loading}
+          <div
+            className="ion-padding"
+            style={{
+              position: "relative",
+              borderTopLeftRadius: "24px",
+              borderTopRightRadius: "24px",
+              top: "-58px",
+              backgroundColor: "rgba(255, 255, 255, 0.95)",
+              zIndex: 5,
+            }}
           >
-            <IonIcon slot="start" icon={logInOutline} />
-            Login
-          </IonButton>
-        </div>
+            <IonText>
+              <h2>
+                <b>Member login</b>
+              </h2>
+              <p>Use your email and password to start ordering</p>
+            </IonText>
 
-        <div className="ion-padding flex justify-center">
-          <IonButton fill="clear">
-            <IonIcon slot="start" icon={helpCircleOutline} />
-            Forgot your password?
-          </IonButton>
-        </div>
+            <div className="ion-padding-bottom">
+              <IonInput
+                mode="md"
+                id="emailAddress"
+                name="emailAddress"
+                label="Email address"
+                fill="outline"
+                labelPlacement="floating"
+                placeholder="example@email.com"
+                type="email"
+                onIonInput={(event: CustomEvent<InputChangeEventDetail>) =>
+                  setEmail(event.detail.value ?? "")
+                }
+              />
+            </div>
 
-        {error && (
-          <AlertBox message={error} icon={warningOutline} color="danger" />
-        )}
+            <div className="ion-padding-bottom">
+              <IonInput
+                mode="md"
+                id="password"
+                name="password"
+                label="Password"
+                fill="outline"
+                labelPlacement="floating"
+                placeholder="******"
+                type="password"
+                onIonInput={(event: CustomEvent<InputChangeEventDetail>) =>
+                  setPassword(event.detail.value ?? "")
+                }
+              />
+            </div>
+
+            <IonButton
+              onClick={handleLoginClick}
+              expand="block"
+              disabled={!email || !password || loading}
+            >
+              <IonIcon slot="start" icon={logInOutline} />
+              Login
+            </IonButton>
+          </div>
+
+          <div className="ion-padding flex justify-center">
+            <IonButton fill="clear">
+              <IonIcon slot="start" icon={helpCircleOutline} />
+              Forgot your password?
+            </IonButton>
+          </div>
+
+          {error && (
+            <AlertBox message={error} icon={warningOutline} color="danger" />
+          )}
+        </>
       </IonContent>
     </IonPage>
   );

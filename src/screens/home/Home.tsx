@@ -66,7 +66,7 @@ const HomeScreen: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Everything Edible</IonTitle>
+          <IonTitle>Shooping</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -111,42 +111,62 @@ const HomeScreen: React.FC = () => {
           </div>
         )}
         {isReady && !session && (
-          <div className="ion-padding ion-text-center">
+          <>
             <div>
               <IonImg
-                src="home-logo.png"
+                src="home-bg.jpg"
                 alt="Logo"
                 style={{
-                  width: "200px",
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "350px",
                   display: "block",
                   margin: "0 auto",
-                  borderRadius: "0.5rem",
                   overflow: "hidden",
                 }}
               />
             </div>
-
-            <IonText>
-              <h1>Everything Edible</h1>
-            </IonText>
-
-            <IonText color="medium">
-              <h2 className="margin-top-0">Private Club</h2>
-            </IonText>
-
-            <IonButton onClick={handleCreateAccountClick}>
-              <IonIcon slot="start" icon={starOutline} />
-              Join the club
-            </IonButton>
-
-            <IonButton
-              fill="outline"
-              onClick={handleLoginClick}
-              disabled={!isReady}
+            <div
+              className="ion-padding ion-text-center"
+              style={{
+                position: "relative",
+                borderTopLeftRadius: "24px",
+                borderTopRightRadius: "24px",
+                top: "-58px",
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                zIndex: 5,
+              }}
             >
-              Already a member? Login here
-            </IonButton>
-          </div>
+              <IonText>
+                <h1>
+                  <b>Welcome to Shooping!</b>
+                </h1>
+              </IonText>
+
+              <IonText color="medium">
+                <p className="margin-top-0">Let's get your groceries ordered</p>
+              </IonText>
+
+              <div
+                style={{
+                  padding: "24px 0",
+                }}
+              >
+                <IonButton onClick={handleCreateAccountClick}>
+                  <IonIcon slot="start" icon={starOutline} />
+                  Join the club
+                </IonButton>
+
+                <IonButton
+                  fill="outline"
+                  onClick={handleLoginClick}
+                  disabled={!isReady}
+                >
+                  Already a member? Login here
+                </IonButton>
+              </div>
+            </div>
+          </>
         )}
       </IonContent>
       <IonFooter>

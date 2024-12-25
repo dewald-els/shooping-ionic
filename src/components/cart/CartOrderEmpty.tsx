@@ -1,4 +1,4 @@
-import { IonItem, IonIcon, IonButton } from "@ionic/react";
+import { IonItem, IonIcon, IonButton, IonImg } from "@ionic/react";
 import { informationCircleOutline, basketOutline } from "ionicons/icons";
 
 type CartOrderEmptyProps = {
@@ -9,6 +9,18 @@ const CartOrderEmpty: React.FC<CartOrderEmptyProps> = (props) => {
   const { onGoShoppingClick } = props;
   return (
     <>
+      <IonImg
+        src="empty-cart.jpg"
+        alt="Logo"
+        style={{
+          objectFit: "cover",
+          width: "100%",
+          height: "200px",
+          display: "block",
+          margin: "0 auto 16px",
+          overflow: "hidden",
+        }}
+      />
       <IonItem>
         <IonIcon slot="start" icon={informationCircleOutline} />
         Nothing in your cart.

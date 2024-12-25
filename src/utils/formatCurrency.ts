@@ -1,7 +1,7 @@
 import { escapeCurrencyText } from "./testUtils";
 
-const formatter = new Intl.NumberFormat("en-US", {
-  currency: "USD",
+const formatter = new Intl.NumberFormat("en-ZA", {
+  currency: "ZAR",
   style: "currency",
 });
 

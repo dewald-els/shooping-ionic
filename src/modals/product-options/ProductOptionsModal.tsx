@@ -111,47 +111,58 @@ const ProductOptionsModal: React.FC<ProductOptionsModalProps> = (props) => {
         {selectedProduct && productOptions.length > 0 && (
           <>
             <ProductOptionsModalImage product={selectedProduct} />
-            <ProductOptionsModalTitle product={selectedProduct} />
-            <IonList>
-              <IonRadioGroup onIonChange={handleOptionChange}>
-                {productOptions.map((option: ProductOption) => {
-                  const optionDisplayPrice = formatCurrency(option.price);
+            <div
+              style={{
+                position: "relative",
+                borderTopLeftRadius: "16px",
+                borderTopRightRadius: "16px",
+                top: "-58px",
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                zIndex: 5,
+              }}
+            >
+              <ProductOptionsModalTitle product={selectedProduct} />
+              <IonList>
+                <IonRadioGroup onIonChange={handleOptionChange}>
+                  {productOptions.map((option: ProductOption) => {
+                    const optionDisplayPrice = formatCurrency(option.price);
 
-                  let optionAvailableStock = option?.stock;
+                    let optionAvailableStock = option?.stock;
 
-                  const orderProductOption = cart?.product_options.find(
-                    (orderOption) => option.id === orderOption.id
-                  );
+                    const orderProductOption = cart?.product_options.find(
+                      (orderOption) => option.id === orderOption.id
+                    );
 
-                  if (orderProductOption) {
-                    optionAvailableStock =
-                      option.stock - orderProductOption.quantity;
-                  }
+                    if (orderProductOption) {
+                      optionAvailableStock =
+                        option.stock - orderProductOption.quantity;
+                    }
 
-                  return (
-                    <IonItem key={option.id}>
-                      <IonRadio
-                        mode="md"
-                        labelPlacement="end"
-                        justify="start"
-                        value={option.id}
-                        disabled={optionAvailableStock <= 0}
-                      >
-                        {option.name}
-                      </IonRadio>
-                      {optionAvailableStock > 0 && (
-                        <span slot="end">{optionDisplayPrice}</span>
-                      )}
-                      {optionAvailableStock <= 0 && (
-                        <IonText color="danger" slot="end">
-                          <span>Out of stock</span>
-                        </IonText>
-                      )}
-                    </IonItem>
-                  );
-                })}
-              </IonRadioGroup>
-            </IonList>
+                    return (
+                      <IonItem key={option.id}>
+                        <IonRadio
+                          mode="md"
+                          labelPlacement="end"
+                          justify="start"
+                          value={option.id}
+                          disabled={optionAvailableStock <= 0}
+                        >
+                          {option.name}
+                        </IonRadio>
+                        {optionAvailableStock > 0 && (
+                          <span slot="end">{optionDisplayPrice}</span>
+                        )}
+                        {optionAvailableStock <= 0 && (
+                          <IonText color="danger" slot="end">
+                            <span>Out of stock</span>
+                          </IonText>
+                        )}
+                      </IonItem>
+                    );
+                  })}
+                </IonRadioGroup>
+              </IonList>
+            </div>
           </>
         )}
       </IonContent>
