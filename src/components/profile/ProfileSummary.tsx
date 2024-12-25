@@ -42,9 +42,9 @@ const ProfileSummary: React.FC<ProfileProps> = (props) => {
         </IonItem>
         <IonItem>
           <IonLabel>
-            <h3>Dewald Els</h3>
-            <h2>dewaldcels@outlook.com</h2>
-            <h3>0711234567</h3>
+            <h3>{profile?.full_name}</h3>
+            <h2>{profile?.email}</h2>
+            <h3>{profile?.phone_number}</h3>
           </IonLabel>
         </IonItem>
 
@@ -54,9 +54,9 @@ const ProfileSummary: React.FC<ProfileProps> = (props) => {
         </IonItem>
         <IonItem>
           <IonLabel>
-            <h2>Street 123</h2>
-            <h3>City</h3>
-            <h3>1234</h3>
+            <h2>{profile?.street}</h2>
+            <h3>{profile?.city}</h3>
+            <h3>{profile?.postCode}</h3>
           </IonLabel>
         </IonItem>
       </IonList>

@@ -22,7 +22,7 @@ const ProductListItem: React.FC<ProductListItemProps> = (props) => {
           "--border-radius": "0.35rem",
         }}
       >
-        <img src="https://via.placeholder.com/300x300" alt={product.name} />
+        <img src={product.image} alt={product.name} />
       </IonThumbnail>
       <IonLabel>
         <h2>{product.name}</h2>

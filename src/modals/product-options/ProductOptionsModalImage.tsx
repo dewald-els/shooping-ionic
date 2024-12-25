@@ -11,10 +11,12 @@ const ProductOptionsModalImage: React.FC<ProductOptionsModalImageProps> = (
   const { product } = props;
   return (
     <img
-      src="https://via.placeholder.com/600x300"
+      src={product?.image}
       style={{
         objectFit: "cover",
         minHeight: "200px",
+        maxHeight: "300px",
+        width: "100%",
         backgroundColor: "var(--ion-color-medium)",
       }}
       alt={product?.name}

@@ -12,4 +12,5 @@ export interface Profile {
   updated_at: string | null;
   avatar_url: string | null;
   username: string | null;
+  email?: string;
 }

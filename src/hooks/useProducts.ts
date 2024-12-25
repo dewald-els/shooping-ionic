@@ -18,7 +18,7 @@ const useProducts = (): {
     }
 
     selectAllProducts()
-      .then(({ data, error }: SupabaseResponse<Product[]>) => {
+      .then(({ data = [], error }: SupabaseResponse<Product[]>) => {
         setProducts(data);
         setError(error);
       })
